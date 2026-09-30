@@ -1,0 +1,13 @@
+metric,YOLO11m PT,YOLO11m ONNX,YOLO11m + MCByteTrack,unit
+Frames processed,998.0,998.0,998.0,frames
+Total detections / tracking records,12735.0,12892.0,12302.0,records
+Average confidence,0.7276981279809754,0.7411456558087062,0.742707724462988,score
+Total processing time,803.9277073999401,1087.9211928979494,730.5387664001901,seconds
+Average inference time/frame,752.6341954900329,1025.7052725502,684.2983990944064,ms/frame
+Inference FPS,1.328666709528006,0.9749389291074918,1.4613507810677184,FPS
+Complete pipeline FPS,1.241405154734283,0.9173458578755858,1.4184064054559022,FPS
+Unique track IDs,,,37.0,tracks
+Average tracks/frame,,,12.326653306613226,tracks/frame
+Average track length,,,332.4864864864865,frames
+Minimum track length,,,2.0,frames
+Maximum track length,,,998.0,frames

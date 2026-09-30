@@ -1,0 +1,6 @@
+class_name,pt_detections,onnx_detections,difference,difference_percent
+bicycle,3,3,0,0.0
+car,3310,3357,47,1.4199395770392749
+handbag,38,45,7,18.421052631578945
+person,9382,9484,102,1.0871882327861864
+tennis racket,2,3,1,50.0

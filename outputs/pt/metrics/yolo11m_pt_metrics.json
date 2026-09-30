@@ -1,0 +1,49 @@
+{
+  "experiment": {
+    "model": "YOLO11m",
+    "model_format": "PyTorch (.pt)",
+    "device": "cpu",
+    "confidence_threshold": 0.25,
+    "iou_threshold": 0.45,
+    "image_size": 640
+  },
+  "input_video": {
+    "filename": "PNNL_Parking_LOT(1).avi",
+    "width": 1920,
+    "height": 1080,
+    "fps": 29.0,
+    "total_frames_expected": 998,
+    "codec": "FMP4"
+  },
+  "processing": {
+    "frames_processed": 998,
+    "frames_with_detections": 998,
+    "total_detections": 12735,
+    "total_processing_time_seconds": 803.9277073999401,
+    "average_inference_time_per_frame_seconds": 0.7526341954900329,
+    "average_inference_time_per_frame_ms": 752.6341954900329,
+    "inference_fps": 1.328666709528006,
+    "complete_pipeline_fps": 1.241405154734283
+  },
+  "confidence": {
+    "average": 0.7276981279809754,
+    "minimum": 0.25011688470840454,
+    "maximum": 0.9296931028366089
+  },
+  "detections_by_class": {
+    "car": 3310,
+    "person": 9382,
+    "handbag": 38,
+    "tennis racket": 2,
+    "bicycle": 3
+  },
+  "evaluation_metrics": {
+    "precision": null,
+    "recall": null,
+    "f1_score": null,
+    "map50": null,
+    "map50_95": null,
+    "iou": null,
+    "reason": "Ground-truth annotations are required for these evaluation metrics."
+  }
+}

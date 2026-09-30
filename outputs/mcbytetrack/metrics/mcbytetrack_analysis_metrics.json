@@ -1,0 +1,33 @@
+{
+  "total_frames": 998,
+  "total_tracking_records": 12302,
+  "unique_track_ids": 37,
+  "unique_classes": 2,
+  "average_tracks_per_frame": 12.326653306613226,
+  "minimum_tracks_per_frame": 5,
+  "maximum_tracks_per_frame": 18,
+  "average_track_length_frames": 332.4864864864865,
+  "minimum_track_length_frames": 2,
+  "maximum_track_length_frames": 998,
+  "median_track_length_frames": 197.0,
+  "average_track_duration_seconds": 11.465051258154707,
+  "average_confidence": 0.742707724462988,
+  "minimum_confidence": 0.2511950433254242,
+  "maximum_confidence": 0.9296931028366088,
+  "total_processing_time_seconds": 730.5387664001901,
+  "average_inference_time_per_frame_ms": 684.2983990944064,
+  "inference_fps": 1.4613507810677184,
+  "complete_pipeline_fps": 1.4184064054559022,
+  "ground_truth_metrics": {
+    "precision": "Ground truth required",
+    "recall": "Ground truth required",
+    "f1_score": "Ground truth required",
+    "map50": "Ground truth required",
+    "map50_95": "Ground truth required",
+    "iou": "Ground truth required",
+    "mota": "Ground truth required",
+    "motp": "Ground truth required",
+    "idf1": "Ground truth required",
+    "hota": "Ground truth required"
+  }
+}

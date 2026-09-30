@@ -1,0 +1,16 @@
+{
+  "model": "YOLO11m",
+  "model_format": "PyTorch (.pt)",
+  "tracker": "ByteTrack",
+  "video": {
+    "filename": "PNNL_Parking_LOT(1).avi",
+    "width": 1920,
+    "height": 1080,
+    "fps": 29.0,
+    "total_frames_expected": 998
+  },
+  "confidence_threshold": 0.25,
+  "iou_threshold": 0.45,
+  "image_size": 640,
+  "device": "cpu"
+}

@@ -1,0 +1,70 @@
+YOLO11m PT vs ONNX COMPARISON REPORT
+======================================================================
+
+EXPERIMENT
+----------------------------------------------------------------------
+Model: YOLO11m
+Video: PNNL_Parking_LOT(1).avi
+Frames compared: 998
+Confidence threshold: 0.25
+NMS IoU threshold: 0.45
+Detection matching IoU: 0.5
+
+DETECTION COUNT
+----------------------------------------------------------------------
+PT detections: 12735
+ONNX detections: 12892
+Difference: 157
+Difference (%): 1.2328%
+
+DETECTION MATCHING
+----------------------------------------------------------------------
+Matched detections: 12723
+PT-only detections: 12
+ONNX-only detections: 169
+PT matching rate: 99.9058%
+ONNX matching rate: 98.6891%
+Average matched bbox IoU: 0.991878
+Median matched bbox IoU: 0.997145
+Minimum matched bbox IoU: 0.592121
+Maximum matched bbox IoU: 0.999808
+Average confidence difference: 0.019184
+Mean absolute confidence difference: 0.019438
+
+PERFORMANCE
+----------------------------------------------------------------------
+PT average inference time: 752.6342 ms/frame
+ONNX average inference time: 1025.7053 ms/frame
+Inference time difference: 273.0711 ms/frame
+Inference time difference (%): 36.2820%
+PT inference FPS: 1.3287
+ONNX inference FPS: 0.9749
+FPS difference: -0.3537
+FPS difference (%): -26.6228%
+PT pipeline FPS: 1.2414
+ONNX pipeline FPS: 0.9173
+Pipeline FPS difference: -0.3241
+Pipeline FPS difference (%): -26.1042%
+
+CONFIDENCE
+----------------------------------------------------------------------
+PT average confidence: 0.727698
+ONNX average confidence: 0.741146
+Difference: 0.013448
+
+CLASS COMPARISON
+----------------------------------------------------------------------
+bicycle: PT=3, ONNX=3, Difference=0, Difference%=0.0000%
+car: PT=3310, ONNX=3357, Difference=47, Difference%=1.4199%
+handbag: PT=38, ONNX=45, Difference=7, Difference%=18.4211%
+person: PT=9382, ONNX=9484, Difference=102, Difference%=1.0872%
+tennis racket: PT=2, ONNX=3, Difference=1, Difference%=50.0000%
+
+EVALUATION METRICS
+----------------------------------------------------------------------
+Precision: Ground truth required
+Recall: Ground truth required
+F1-score: Ground truth required
+mAP@50: Ground truth required
+mAP@50-95: Ground truth required
+IoU: Ground truth required

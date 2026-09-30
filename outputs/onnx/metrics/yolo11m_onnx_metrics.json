@@ -1,0 +1,50 @@
+{
+  "experiment": {
+    "model": "YOLO11m",
+    "model_format": "ONNX",
+    "onnx_runtime": "ONNX Runtime",
+    "execution_provider": "CPUExecutionProvider",
+    "confidence_threshold": 0.25,
+    "iou_threshold": 0.45,
+    "image_size": 640
+  },
+  "input_video": {
+    "filename": "PNNL_Parking_LOT(1).avi",
+    "width": 1920,
+    "height": 1080,
+    "fps": 29.0,
+    "total_frames_expected": 998
+  },
+  "processing": {
+    "frames_processed": 998,
+    "frames_with_detections": 998,
+    "total_detections": 12892,
+    "total_inference_time_seconds": 1023.6538620050997,
+    "total_pipeline_time_seconds": 1087.9211928979494,
+    "average_inference_time_per_frame_seconds": 1.0257052725502,
+    "average_inference_time_per_frame_ms": 1025.7052725502,
+    "inference_fps": 0.9749389291074918,
+    "complete_pipeline_fps": 0.9173458578755858
+  },
+  "confidence": {
+    "average": 0.7411456558087062,
+    "minimum": 0.2500126361846924,
+    "maximum": 0.931830883026123
+  },
+  "detections_by_class": {
+    "person": 9484,
+    "car": 3357,
+    "handbag": 45,
+    "tennis racket": 3,
+    "bicycle": 3
+  },
+  "evaluation_metrics": {
+    "precision": null,
+    "recall": null,
+    "f1_score": null,
+    "map50": null,
+    "map50_95": null,
+    "iou": null,
+    "reason": "Ground-truth annotations are required for these evaluation metrics."
+  }
+}

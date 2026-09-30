@@ -1,0 +1,50 @@
+YOLO11m ONNX DETAILED REPORT
+======================================================================
+
+MODEL
+----------------------------------------------------------------------
+Model: YOLO11m
+Format: ONNX
+Runtime: ONNX Runtime
+Device: CPU
+
+INPUT VIDEO
+----------------------------------------------------------------------
+Filename: PNNL_Parking_LOT(1).avi
+Resolution: 1920x1080
+Video FPS: 29.0
+Total frames: 998
+
+DETECTION RESULTS
+----------------------------------------------------------------------
+Total detections: 12892
+Frames with detections: 998
+Average detections/frame: 12.9178
+Average confidence: 0.741146
+Minimum confidence: 0.250013
+Maximum confidence: 0.931831
+
+PERFORMANCE
+----------------------------------------------------------------------
+Total inference time: 1023.6539 sec
+Total pipeline time: 1087.9212 sec
+Average inference/frame: 1025.7053 ms
+Inference FPS: 0.9749
+Pipeline FPS: 0.9173
+
+DETECTIONS BY CLASS
+----------------------------------------------------------------------
+person: 9484 (73.57%)
+car: 3357 (26.04%)
+handbag: 45 (0.35%)
+bicycle: 3 (0.02%)
+tennis racket: 3 (0.02%)
+
+EVALUATION METRICS
+----------------------------------------------------------------------
+Precision: N/A - ground truth required
+Recall: N/A - ground truth required
+F1-score: N/A - ground truth required
+mAP@50: N/A - ground truth required
+mAP@50-95: N/A - ground truth required
+IoU: N/A - ground truth required

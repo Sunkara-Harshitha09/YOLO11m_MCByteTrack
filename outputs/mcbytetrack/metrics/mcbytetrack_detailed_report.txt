@@ -1,0 +1,64 @@
+MCByteTrack Detailed Analysis Report
+======================================================================
+
+EXPERIMENT
+----------------------------------------------------------------------
+Model: YOLO11m
+Model format: PyTorch (.pt)
+Tracker: ByteTrack
+Video: PNNL_Parking_LOT(1).avi
+Device: cpu
+Confidence threshold: 0.25
+IoU threshold: 0.45
+Image size: 640
+
+TRACKING RESULTS
+----------------------------------------------------------------------
+Frames processed: 998
+Tracking records: 12302
+Unique track IDs: 37
+Unique classes: 2
+Average tracks/frame: 12.3267
+Minimum tracks/frame: 5
+Maximum tracks/frame: 18
+Average track length: 332.49 frames
+Median track length: 197.00 frames
+Minimum track length: 2 frames
+Maximum track length: 998 frames
+Average track duration: 11.47 seconds
+
+CONFIDENCE
+----------------------------------------------------------------------
+Average confidence: 0.742708
+Minimum confidence: 0.251195
+Maximum confidence: 0.929693
+Median confidence: 0.770860
+
+PERFORMANCE
+----------------------------------------------------------------------
+Total processing time: 730.5388 seconds
+Average inference time/frame: 684.2984 ms
+Inference FPS: 1.4614
+Complete pipeline FPS: 1.4184
+
+TRACKS BY CLASS
+----------------------------------------------------------------------
+car: 6 unique tracks, 3101 records, average confidence 0.7859
+person: 31 unique tracks, 9201 records, average confidence 0.7281
+
+GROUND-TRUTH DEPENDENT METRICS
+----------------------------------------------------------------------
+Precision: Ground truth required
+Recall: Ground truth required
+F1-score: Ground truth required
+mAP@50: Ground truth required
+mAP@50-95: Ground truth required
+IoU: Ground truth required
+MOTA: Ground truth required
+MOTP: Ground truth required
+IDF1: Ground truth required
+HOTA: Ground truth required
+
+Note:
+These metrics are not calculated because no ground-truth
+detection/tracking annotations are available for this video.

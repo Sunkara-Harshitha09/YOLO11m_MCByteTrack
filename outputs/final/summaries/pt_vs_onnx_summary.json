@@ -1,0 +1,96 @@
+{
+  "experiment": {
+    "model": "YOLO11m",
+    "pt_format": "PyTorch",
+    "onnx_format": "ONNX",
+    "runtime": "ONNX Runtime",
+    "video": "PNNL_Parking_LOT(1).avi",
+    "frames_compared": 998,
+    "confidence_threshold": 0.25,
+    "nms_iou_threshold": 0.45,
+    "matching_iou_threshold": 0.5
+  },
+  "detection_counts": {
+    "pt": 12735,
+    "onnx": 12892,
+    "difference_onnx_minus_pt": 157,
+    "difference_percent": 1.2328229289360033
+  },
+  "matching": {
+    "matched_detections": 12723,
+    "pt_only_detections": 12,
+    "onnx_only_detections": 169,
+    "pt_matching_rate_percent": 99.9057714958775,
+    "onnx_matching_rate_percent": 98.689109525287,
+    "average_bbox_iou": 0.9918780931060257,
+    "median_bbox_iou": 0.9971445392731519,
+    "minimum_bbox_iou": 0.5921213892939029,
+    "maximum_bbox_iou": 0.9998079723374633,
+    "average_confidence_difference": 0.01918440513534759,
+    "mean_absolute_confidence_difference": 0.01943827171300573
+  },
+  "performance": {
+    "pt_average_inference_time_ms": 752.6341954900329,
+    "onnx_average_inference_time_ms": 1025.7052725502,
+    "inference_time_difference_ms": 273.0710770601672,
+    "inference_time_difference_percent": 36.2820449424801,
+    "pt_inference_fps": 1.328666709528006,
+    "onnx_inference_fps": 0.9749389291074918,
+    "fps_difference": -0.3537277804205142,
+    "fps_difference_percent": -26.62276234392687,
+    "pt_pipeline_fps": 1.241405154734283,
+    "onnx_pipeline_fps": 0.9173458578755858,
+    "pipeline_fps_difference": -0.3240592968586973,
+    "pipeline_fps_difference_percent": -26.10423322497486
+  },
+  "confidence": {
+    "pt_average": 0.7276981279809754,
+    "onnx_average": 0.7411456558087062,
+    "difference": 0.013447527827730732
+  },
+  "class_comparison": [
+    {
+      "class_name": "bicycle",
+      "pt_detections": 3,
+      "onnx_detections": 3,
+      "difference": 0,
+      "difference_percent": 0.0
+    },
+    {
+      "class_name": "car",
+      "pt_detections": 3310,
+      "onnx_detections": 3357,
+      "difference": 47,
+      "difference_percent": 1.4199395770392749
+    },
+    {
+      "class_name": "handbag",
+      "pt_detections": 38,
+      "onnx_detections": 45,
+      "difference": 7,
+      "difference_percent": 18.421052631578945
+    },
+    {
+      "class_name": "person",
+      "pt_detections": 9382,
+      "onnx_detections": 9484,
+      "difference": 102,
+      "difference_percent": 1.0871882327861864
+    },
+    {
+      "class_name": "tennis racket",
+      "pt_detections": 2,
+      "onnx_detections": 3,
+      "difference": 1,
+      "difference_percent": 50.0
+    }
+  ],
+  "evaluation_metrics": {
+    "precision": "Ground truth required",
+    "recall": "Ground truth required",
+    "f1_score": "Ground truth required",
+    "map50": "Ground truth required",
+    "map50_95": "Ground truth required",
+    "iou": "Ground truth required"
+  }
+}

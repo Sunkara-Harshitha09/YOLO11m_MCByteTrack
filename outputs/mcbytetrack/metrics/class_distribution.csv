@@ -1,0 +1,3 @@
+class_name,tracking_records,unique_tracks,average_confidence,record_percentage
+car,3101,6,0.7859435192676023,25.20728336855796
+person,9201,31,0.7281360257683779,74.79271663144205

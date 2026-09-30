@@ -1,0 +1,11 @@
+metric,PT,ONNX,MCByteTrack
+Precision,Ground truth required,Ground truth required,Ground truth required
+Recall,Ground truth required,Ground truth required,Ground truth required
+F1-score,Ground truth required,Ground truth required,Ground truth required
+mAP@50,Ground truth required,Ground truth required,Ground truth required
+mAP@50-95,Ground truth required,Ground truth required,Ground truth required
+IoU,Ground truth required,Ground truth required,Ground truth required
+MOTA,Not applicable,Not applicable,Ground truth required
+MOTP,Not applicable,Not applicable,Ground truth required
+IDF1,Not applicable,Not applicable,Ground truth required
+HOTA,Not applicable,Not applicable,Ground truth required

@@ -1,0 +1,50 @@
+YOLO11m PT DETAILED ANALYSIS REPORT
+======================================================================
+
+MODEL
+----------------------------------------------------------------------
+Model: YOLO11m
+Format: PyTorch (.pt)
+Device: CPU
+Confidence threshold: 0.25
+IoU threshold: 0.45
+Image size: 640
+
+VIDEO
+----------------------------------------------------------------------
+Filename: PNNL_Parking_LOT(1).avi
+Resolution: 1920x1080
+FPS: 29.0
+Frames: 998
+
+DETECTION RESULTS
+----------------------------------------------------------------------
+Total detections: 12735
+Average detections/frame: 12.7605
+Average confidence: 0.727698
+Minimum confidence: 0.250117
+Maximum confidence: 0.929693
+
+PERFORMANCE
+----------------------------------------------------------------------
+Total processing time: 803.9277 seconds
+Average inference/frame: 752.6342 ms
+Inference FPS: 1.3287
+Complete pipeline FPS: 1.2414
+
+CLASS DISTRIBUTION
+----------------------------------------------------------------------
+person: 9382 (73.67%)
+car: 3310 (25.99%)
+handbag: 38 (0.30%)
+bicycle: 3 (0.02%)
+tennis racket: 2 (0.02%)
+
+GROUND-TRUTH METRICS
+----------------------------------------------------------------------
+Precision: Not calculated
+Recall: Not calculated
+F1-score: Not calculated
+mAP@50: Not calculated
+mAP@50-95: Not calculated
+IoU: Not calculated

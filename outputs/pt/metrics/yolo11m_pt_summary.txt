@@ -1,0 +1,49 @@
+YOLO11m PT DETECTION SUMMARY
+============================================================
+
+Model: YOLO11m
+Format: PyTorch (.pt)
+Device: cpu
+
+INPUT VIDEO
+------------------------------------------------------------
+Filename: PNNL_Parking_LOT(1).avi
+Resolution: 1920x1080
+FPS: 29.0
+Expected frames: 998
+Codec: FMP4
+
+DETECTION RESULTS
+------------------------------------------------------------
+Frames processed: 998
+Frames with detections: 998
+Total detections: 12735
+Average confidence: 0.727698
+Minimum confidence: 0.250117
+Maximum confidence: 0.929693
+
+PERFORMANCE
+------------------------------------------------------------
+Total processing time: 803.927707 seconds
+Average inference time/frame: 752.634 ms
+Inference FPS: 1.329
+Complete pipeline FPS: 1.241
+
+DETECTIONS BY CLASS
+------------------------------------------------------------
+car: 3310
+person: 9382
+handbag: 38
+tennis racket: 2
+bicycle: 3
+
+EVALUATION METRICS
+------------------------------------------------------------
+Precision: Not calculated
+Recall: Not calculated
+F1-score: Not calculated
+mAP@50: Not calculated
+mAP@50-95: Not calculated
+IoU: Not calculated
+
+Reason: Ground-truth annotations are required for these metrics.

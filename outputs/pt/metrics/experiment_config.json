@@ -1,0 +1,22 @@
+{
+  "model": "YOLO11m",
+  "model_format": "PyTorch (.pt)",
+  "input_video": "PNNL_Parking_LOT(1).avi",
+  "device": "cpu",
+  "confidence_threshold": 0.25,
+  "iou_threshold": 0.45,
+  "image_size": 640,
+  "video_width": 1920,
+  "video_height": 1080,
+  "video_fps": 29.0,
+  "total_frames": 998,
+  "evaluation_metrics": {
+    "precision": null,
+    "recall": null,
+    "f1_score": null,
+    "map50": null,
+    "map50_95": null,
+    "iou": null,
+    "reason": "Ground-truth annotations for the common video have not been established."
+  }
+}

@@ -1,0 +1,6 @@
+class_name,PT_detections,ONNX_detections,MCByteTrack_unique_tracks
+bicycle,3,3,0
+car,3310,3357,6
+handbag,38,45,0
+person,9382,9484,31
+tennis racket,2,3,0

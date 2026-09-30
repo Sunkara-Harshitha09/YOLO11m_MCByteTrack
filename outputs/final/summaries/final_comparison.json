@@ -1,0 +1,46 @@
+{
+  "experiment": {
+    "video": "PNNL_Parking_LOT(1).avi",
+    "frames": 998,
+    "model": "YOLO11m",
+    "confidence_threshold": 0.25,
+    "iou_threshold": 0.45,
+    "image_size": 640,
+    "device": "CPU"
+  },
+  "methods": {
+    "YOLO11m_PT": {
+      "total_detections": 12735,
+      "average_confidence": 0.7276981279809754,
+      "total_processing_time_seconds": 803.9277073999401,
+      "average_inference_time_ms": 752.6341954900329,
+      "inference_fps": 1.328666709528006,
+      "pipeline_fps": 1.241405154734283
+    },
+    "YOLO11m_ONNX": {
+      "total_detections": 12892,
+      "average_confidence": 0.7411456558087062,
+      "total_inference_time_seconds": 1023.6538620050997,
+      "total_pipeline_time_seconds": 1087.9211928979494,
+      "average_inference_time_ms": 1025.7052725502,
+      "inference_fps": 0.9749389291074918,
+      "pipeline_fps": 0.9173458578755858
+    },
+    "YOLO11m_MCByteTrack": {
+      "total_tracking_records": 12302,
+      "average_confidence": 0.742707724462988,
+      "total_unique_track_ids": 37,
+      "person_tracks": 31,
+      "car_tracks": 6,
+      "average_tracks_per_frame": 12.326653306613226,
+      "average_track_length_frames": 332.4864864864865,
+      "minimum_track_length_frames": 2,
+      "maximum_track_length_frames": 998,
+      "total_processing_time_seconds": 730.5387664001901,
+      "average_inference_time_ms": 684.2983990944064,
+      "inference_fps": 1.4613507810677184,
+      "pipeline_fps": 1.4184064054559022
+    }
+  },
+  "ground_truth_note": "Precision, recall, F1-score, mAP, IoU, MOTA, MOTP, IDF1 and HOTA require ground-truth annotations."
+}
