@@ -3,35 +3,20 @@ MCByteTrack / YOLO11m Tracking Summary
 
 Video: PNNL_Parking_LOT(1).avi
 Model: YOLO11m
-Tracker: ByteTrack
+Tracker: MCByteTrack
 Device: cpu
 
 Frames processed: 998
 Frames with tracks: 998
 Total detections: 12735
-Total tracking records: 12302
 
 Unique track IDs: 37
-Average tracks/frame: 12.3267
-Average track length: 332.49 frames
-Minimum track length: 2 frames
-Maximum track length: 998 frames
+Average active tracks: 12.3267
+Maximum active tracks: 18
+Average track lifetime: 332.49 frames
+Longest track lifetime: 998 frames
 
-Average confidence: 0.742708
-
-Total processing time: 730.5388 seconds
-Average inference time/frame: 684.2984 ms
-Inference FPS: 1.4614
-Complete pipeline FPS: 1.4184
-
-Ground-truth dependent metrics:
-Precision: Ground truth required
-Recall: Ground truth required
-F1-score: Ground truth required
-mAP@50: Ground truth required
-mAP@50-95: Ground truth required
-IoU: Ground truth required
-MOTA: Ground truth required
-MOTP: Ground truth required
-IDF1: Ground truth required
-HOTA: Ground truth required
+Total processing time: 592.3964 seconds
+Average FPS: 1.7550
+Average latency: 569.8021 ms
+P95 latency: 594.8403 ms

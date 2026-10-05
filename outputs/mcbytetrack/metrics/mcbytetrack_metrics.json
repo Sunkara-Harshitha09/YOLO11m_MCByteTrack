@@ -1,57 +1,39 @@
 {
-  "experiment": {
-    "tracker": "ByteTrack",
-    "model": "YOLO11m",
-    "model_format": "PyTorch (.pt)",
-    "device": "cpu",
-    "confidence_threshold": 0.25,
-    "iou_threshold": 0.45,
-    "image_size": 640
-  },
-  "input_video": {
-    "filename": "PNNL_Parking_LOT(1).avi",
-    "width": 1920,
-    "height": 1080,
-    "fps": 29.0,
-    "total_frames_expected": 998
-  },
-  "processing": {
-    "frames_processed": 998,
-    "frames_with_tracks": 998,
-    "total_detections": 12735,
-    "total_tracking_records": 12302,
-    "total_processing_time_seconds": 730.5387664001901,
-    "average_inference_time_per_frame_seconds": 0.6842983990944064,
-    "average_inference_time_per_frame_ms": 684.2983990944064,
-    "average_frame_processing_time_ms": 705.0165567171007,
-    "inference_fps": 1.4613507810677184,
-    "complete_pipeline_fps": 1.4184064054559022
-  },
-  "tracking": {
-    "total_unique_track_ids": 37,
-    "average_tracks_per_frame": 12.326653306613226,
-    "average_track_length_frames": 332.4864864864865,
-    "minimum_track_length_frames": 2,
-    "maximum_track_length_frames": 998,
-    "tracks_by_class": {
-      "car": 6,
-      "person": 31
+    "experiment": {
+        "tracker": "MCByteTrack",
+        "model": "YOLO11m",
+        "model_format": "PyTorch (.pt)",
+        "device": "cpu",
+        "confidence_threshold": 0.25,
+        "iou_threshold": 0.45,
+        "image_size": 640
+    },
+    "input_video": {
+        "filename": "PNNL_Parking_LOT(1).avi",
+        "width": 1920,
+        "height": 1080,
+        "fps": 29.0,
+        "total_frames_expected": 998
+    },
+    "processing": {
+        "frames_processed": 998,
+        "frames_with_tracks": 998,
+        "total_detections": 12735,
+        "total_tracking_records": 12302,
+        "total_processing_time_seconds": 592.396374899894,
+        "average_inference_time_per_frame_seconds": 0.5521972139239057,
+        "average_inference_time_per_frame_ms": 552.1972139239058,
+        "average_frame_processing_time_ms": 569.80211241824,
+        "complete_pipeline_fps": 1.7549952487118736
+    },
+    "tracking": {
+        "total_unique_track_ids": 37,
+        "average_tracks_per_frame": 12.326653306613226,
+        "average_track_length_frames": 332.4864864864865,
+        "maximum_track_length_frames": 998,
+        "tracks_by_class": {
+            "car": 6,
+            "person": 31
+        }
     }
-  },
-  "confidence": {
-    "average": 0.742707724462988
-  },
-  "evaluation_metrics": {
-    "precision": null,
-    "recall": null,
-    "f1_score": null,
-    "map50": null,
-    "map50_95": null,
-    "iou": null,
-    "mota": null,
-    "motp": null,
-    "idf1": null,
-    "hota": null,
-    "reason": "Ground-truth detection and tracking annotations are required for these evaluation metrics."
-  }
 }

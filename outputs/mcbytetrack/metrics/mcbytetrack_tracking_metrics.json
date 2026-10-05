@@ -1,0 +1,54 @@
+{
+    "project": {
+        "name": "YOLO11m + MCByteTrack Object Tracking",
+        "tracker": "MCByteTrack"
+    },
+    "model": {
+        "name": "YOLO11m",
+        "format": "pt",
+        "path": "C:\\Users\\HarshithaSunkara\\OneDrive - Proglint\\Desktop\\YOLO11m_MCByteTrack\\models\\pt\\yolo11m.pt"
+    },
+    "configuration": {
+        "confidence_threshold": 0.25,
+        "iou_threshold": 0.45,
+        "tracker_config": "supervision.ByteTrack",
+        "device": "CPU"
+    },
+    "video": {
+        "input": "C:\\Users\\HarshithaSunkara\\OneDrive - Proglint\\Desktop\\YOLO11m_MCByteTrack\\input\\videos\\PNNL_Parking_LOT(1).avi",
+        "width": 1920,
+        "height": 1080,
+        "fps": 29.0,
+        "total_frames": 998
+    },
+    "tracking_statistics": {
+        "frame_count": 998,
+        "total_detections": 12735,
+        "unique_track_ids": 37,
+        "average_active_tracks": 12.326653306613226,
+        "maximum_active_tracks": 18,
+        "average_track_lifetime": 332.4864864864865,
+        "longest_track_lifetime": 998,
+        "average_fps": 1.7549952487118736,
+        "average_latency_ms": 569.80211241824,
+        "p95_latency_ms": 594.840299920179,
+        "total_processing_time_seconds": 592.396374899894
+    },
+    "resources": {
+        "process": {
+            "average_cpu_percent": 296.8797595190381,
+            "peak_cpu_percent": 305.3,
+            "average_ram_mb": 666.5076089679359,
+            "peak_ram_mb": 682.90625
+        },
+        "system": {
+            "average_cpu_percent": 77.87414829659319,
+            "peak_cpu_percent": 100.0
+        }
+    },
+    "outputs": {
+        "video": "C:\\Users\\HarshithaSunkara\\OneDrive - Proglint\\Desktop\\YOLO11m_MCByteTrack\\outputs\\mcbytetrack\\videos\\yolo11m_mcbytetrack_output.mp4",
+        "json": "C:\\Users\\HarshithaSunkara\\OneDrive - Proglint\\Desktop\\YOLO11m_MCByteTrack\\outputs\\mcbytetrack\\metrics\\mcbytetrack_tracking_metrics.json",
+        "log": "C:\\Users\\HarshithaSunkara\\OneDrive - Proglint\\Desktop\\YOLO11m_MCByteTrack\\outputs\\mcbytetrack\\logs\\mcbytetrack.log"
+    }
+}
