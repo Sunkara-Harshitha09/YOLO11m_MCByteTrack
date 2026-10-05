@@ -5,10 +5,9 @@
 
 FROM python:3.12-slim
 
-# Prevent Python from creating .pyc files
-# and enable unbuffered console output
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV YOLO_CONFIG_DIR=/tmp/Ultralytics
 
 # ============================================================
 # System dependencies
