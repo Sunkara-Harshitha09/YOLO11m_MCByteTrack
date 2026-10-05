@@ -16,7 +16,7 @@ Maximum active tracks: 18
 Average track lifetime: 332.49 frames
 Longest track lifetime: 998 frames
 
-Total processing time: 592.3964 seconds
-Average FPS: 1.7550
-Average latency: 569.8021 ms
-P95 latency: 594.8403 ms
+Total processing time: 680.4279 seconds
+Average FPS: 1.5083
+Average latency: 663.0108 ms
+P95 latency: 1010.1774 ms

@@ -6,7 +6,7 @@
     "model": {
         "name": "YOLO11m",
         "format": "pt",
-        "path": "C:\\Users\\HarshithaSunkara\\OneDrive - Proglint\\Desktop\\YOLO11m_MCByteTrack\\models\\pt\\yolo11m.pt"
+        "path": "/app/models/pt/yolo11m.pt"
     },
     "configuration": {
         "confidence_threshold": 0.25,
@@ -15,7 +15,7 @@
         "device": "CPU"
     },
     "video": {
-        "input": "C:\\Users\\HarshithaSunkara\\OneDrive - Proglint\\Desktop\\YOLO11m_MCByteTrack\\input\\videos\\PNNL_Parking_LOT(1).avi",
+        "input": "/app/input/videos/PNNL_Parking_LOT(1).avi",
         "width": 1920,
         "height": 1080,
         "fps": 29.0,
@@ -29,26 +29,26 @@
         "maximum_active_tracks": 18,
         "average_track_lifetime": 332.4864864864865,
         "longest_track_lifetime": 998,
-        "average_fps": 1.7549952487118736,
-        "average_latency_ms": 569.80211241824,
-        "p95_latency_ms": 594.840299920179,
-        "total_processing_time_seconds": 592.396374899894
+        "average_fps": 1.5082709992381698,
+        "average_latency_ms": 663.0108253126274,
+        "p95_latency_ms": 1010.1774128499997,
+        "total_processing_time_seconds": 680.427876447
     },
     "resources": {
         "process": {
-            "average_cpu_percent": 296.8797595190381,
-            "peak_cpu_percent": 305.3,
-            "average_ram_mb": 666.5076089679359,
-            "peak_ram_mb": 682.90625
+            "average_cpu_percent": 274.6537074148297,
+            "peak_cpu_percent": 292.3,
+            "average_ram_mb": 1063.4742257953408,
+            "peak_ram_mb": 1105.875
         },
         "system": {
-            "average_cpu_percent": 77.87414829659319,
-            "peak_cpu_percent": 100.0
+            "average_cpu_percent": 70.32154308617234,
+            "peak_cpu_percent": 86.2
         }
     },
     "outputs": {
-        "video": "C:\\Users\\HarshithaSunkara\\OneDrive - Proglint\\Desktop\\YOLO11m_MCByteTrack\\outputs\\mcbytetrack\\videos\\yolo11m_mcbytetrack_output.mp4",
-        "json": "C:\\Users\\HarshithaSunkara\\OneDrive - Proglint\\Desktop\\YOLO11m_MCByteTrack\\outputs\\mcbytetrack\\metrics\\mcbytetrack_tracking_metrics.json",
-        "log": "C:\\Users\\HarshithaSunkara\\OneDrive - Proglint\\Desktop\\YOLO11m_MCByteTrack\\outputs\\mcbytetrack\\logs\\mcbytetrack.log"
+        "video": "/app/outputs/mcbytetrack/videos/yolo11m_mcbytetrack_output.mp4",
+        "json": "/app/outputs/mcbytetrack/metrics/mcbytetrack_tracking_metrics.json",
+        "log": "/app/outputs/mcbytetrack/logs/mcbytetrack.log"
     }
 }
