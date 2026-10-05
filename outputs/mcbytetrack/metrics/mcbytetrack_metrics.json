@@ -20,11 +20,11 @@
         "frames_with_tracks": 998,
         "total_detections": 12735,
         "total_tracking_records": 12302,
-        "total_processing_time_seconds": 680.427876447,
-        "average_inference_time_per_frame_seconds": 0.6515550481513028,
-        "average_inference_time_per_frame_ms": 651.5550481513028,
-        "average_frame_processing_time_ms": 663.0108253126274,
-        "complete_pipeline_fps": 1.5082709992381698
+        "total_processing_time_seconds": 631.5942442130001,
+        "average_inference_time_per_frame_seconds": 0.6021161959799519,
+        "average_inference_time_per_frame_ms": 602.116195979952,
+        "average_frame_processing_time_ms": 614.5700786683416,
+        "complete_pipeline_fps": 1.6271537367501083
     },
     "tracking": {
         "total_unique_track_ids": 37,
