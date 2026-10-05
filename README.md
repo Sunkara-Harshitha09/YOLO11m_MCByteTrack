@@ -24,6 +24,7 @@ The objective of this project is to:
 - Analyze tracking results
 - Compare PyTorch, ONNX and MCByteTrack performance
 - Store experiment results in structured CSV, JSON, TXT and PNG formats
+- Provide a Docker-based environment for reproducible execution
 
 The same video and common detection configuration are used wherever applicable to maintain consistent experimental conditions.
 
@@ -68,7 +69,6 @@ The model files are excluded from Git because they are large binary files.
 Expected local paths:
 
 models/pt/yolo11m.pt
-
 models/onnx/yolo11m.onnx
 
 ---
@@ -122,6 +122,7 @@ YOLO11m_MCByteTrack/
             videos/
             tracking/
             metrics/
+            logs/
 
         final/
             reports/
@@ -130,6 +131,8 @@ YOLO11m_MCByteTrack/
             summaries/
 
     requirements.txt
+    Dockerfile
+    docker-compose.yml
     .gitignore
     README.md
 
@@ -152,12 +155,15 @@ Main libraries:
 - Pandas
 - Matplotlib
 - Supervision
+- psutil
 
 The complete dependency list is available in requirements.txt.
 
 ---
 
 ## Installation
+
+### Python Environment
 
 Create the virtual environment:
 
@@ -172,6 +178,123 @@ Windows PowerShell:
 Install dependencies:
 
 pip install -r requirements.txt
+
+---
+
+## Docker Environment
+
+The project also provides Docker support so that the project can be reproduced without manually configuring the Python environment.
+
+### Docker Requirements
+
+Install:
+
+- Docker Desktop
+- WSL 2 on Windows if required by Docker Desktop
+- Linux containers enabled in Docker Desktop
+
+Verify Docker:
+
+docker --version
+
+Verify Docker Compose:
+
+docker compose version
+
+---
+
+## Docker Input Requirements
+
+Because the input video and model weights are large binary files, they are not included in Git.
+
+Before running the Docker pipeline, make sure the following files exist locally:
+
+input/videos/PNNL_Parking_LOT(1).avi
+models/pt/yolo11m.pt
+
+The project mounts the local input, models and outputs directories into the Docker container.
+
+---
+
+## Docker Build
+
+From the project root directory:
+
+docker compose build
+
+This builds the Docker image using:
+
+Dockerfile
+
+and installs the dependencies specified in:
+
+requirements.txt
+
+---
+
+## Docker Run
+
+After the Docker image is built, run:
+
+docker compose up
+
+The container executes the MCByteTrack pipeline automatically.
+
+The configured Docker service is:
+
+mcbytetrack
+
+The Docker container runs:
+
+src/tracking/run_mcbytetrack.py
+
+---
+
+## Docker Run with Automatic Rebuild
+
+If the Dockerfile or dependencies have been changed, rebuild and run using:
+
+docker compose up --build
+
+---
+
+## Docker Output
+
+Docker writes the generated results back to the local project because the following directories are mounted:
+
+./input → /app/input
+./models → /app/models
+./outputs → /app/outputs
+
+The MCByteTrack outputs are available locally under:
+
+outputs/mcbytetrack/
+
+Important output directories include:
+
+outputs/mcbytetrack/metrics/
+outputs/mcbytetrack/tracking/
+outputs/mcbytetrack/videos/
+outputs/mcbytetrack/logs/
+
+The generated videos are excluded from Git because of their large size.
+
+---
+
+## Docker Configuration
+
+The project uses:
+
+Dockerfile
+docker-compose.yml
+
+The Docker image is based on:
+
+python:3.12-slim
+
+The Docker environment installs the required system dependencies and Python packages before running the tracking pipeline.
+
+The Docker image is currently configured for CPU execution.
 
 ---
 
@@ -443,6 +566,46 @@ Car tracks:
 
 ---
 
+## Docker MCByteTrack Execution Results
+
+The Dockerized MCByteTrack pipeline was also executed successfully using the same input video and YOLO11m model.
+
+### Docker Direct Run
+
+Results from the Docker image execution:
+
+- Frames processed: 998
+- Total detections: 12,735
+- Unique track IDs: 37
+- Average active tracks: 12.33
+- Maximum active tracks: 18
+- Average track lifetime: 332.49 frames
+- Longest track lifetime: 998 frames
+- Average FPS: approximately 1.65
+- Average latency: approximately 605.78 ms/frame
+- P95 latency: approximately 809.74 ms
+- Total processing time: approximately 621.99 seconds
+
+### Docker Compose Run
+
+Results from Docker Compose execution:
+
+- Frames processed: 998
+- Total detections: 12,735
+- Unique track IDs: 37
+- Average active tracks: 12.33
+- Maximum active tracks: 18
+- Average track lifetime: 332.49 frames
+- Longest track lifetime: 998 frames
+- Average FPS: approximately 1.51
+- Average latency: approximately 663.01 ms/frame
+- P95 latency: approximately 1010.18 ms
+- Total processing time: approximately 680.43 seconds
+
+The small performance difference between direct Docker execution and Docker Compose execution is expected because of runtime and container execution conditions.
+
+---
+
 ## Class Tracking Results
 
 MCByteTrack produced:
@@ -480,27 +643,27 @@ Detection counts, confidence values, FPS and tracking statistics are reported as
 
 The project stores results in multiple formats.
 
-Detection outputs:
+### Detection Outputs
 
 - CSV
 - JSON
 
-Tracking outputs:
+### Tracking Outputs
 
 - CSV
 - JSON
 
-Metrics:
+### Metrics
 
 - CSV
 - JSON
 - TXT
 
-Visualizations:
+### Visualizations
 
 - PNG
 
-Final comparison:
+### Final Comparison
 
 - CSV tables
 - JSON summaries
@@ -544,6 +707,29 @@ outputs/final/
 
 ---
 
+## MCByteTrack Output Organization
+
+The MCByteTrack results are organized under:
+
+outputs/mcbytetrack/
+
+    videos/
+        annotated tracking videos
+
+    tracking/
+        tracking CSV outputs
+
+    metrics/
+        tracking metrics JSON
+        tracking statistics CSV
+        summary TXT
+        tracking plots
+
+    logs/
+        execution logs
+
+---
+
 ## Video Outputs
 
 Annotated videos are generated for the PyTorch, ONNX and MCByteTrack pipelines.
@@ -556,7 +742,11 @@ H.264 versions were also generated for easier video preview and playback.
 
 ## Reproducibility
 
-To reproduce the project:
+The project can be reproduced using either a local Python environment or Docker.
+
+### Python Reproducibility
+
+To reproduce the project using Python:
 
 1. Clone the repository.
 2. Create the Python virtual environment.
@@ -574,11 +764,77 @@ To reproduce the project:
 
 ---
 
+## Docker Reproducibility
+
+To reproduce the Dockerized MCByteTrack environment:
+
+1. Clone the repository.
+2. Install Docker Desktop.
+3. Make sure Docker is running.
+4. Place PNNL_Parking_LOT(1).avi inside input/videos/.
+5. Place yolo11m.pt inside models/pt/.
+6. Build the Docker image.
+7. Run the Docker Compose service.
+8. Check the generated results under outputs/mcbytetrack/.
+
+### Docker Commands
+
+Build:
+
+docker compose build
+
+Run:
+
+docker compose up
+
+Build and run after changes:
+
+docker compose up --build
+
+Stop the running service:
+
+Ctrl + C
+
+Check containers:
+
+docker ps -a
+
+---
+
+## Docker Volume Mapping
+
+The Docker Compose configuration uses the following directory mappings:
+
+Local Project                  Docker Container
+./input                    →   /app/input
+./models                   →   /app/models
+./outputs                  →   /app/outputs
+
+This allows the container to read the local video and model and write the generated results back to the project directory.
+
+---
+
+## Docker Image
+
+Docker image name:
+
+yolo11m-mcbytetrack:latest
+
+Docker container name:
+
+yolo11m-mcbytetrack
+
+The image uses Python 3.12 and installs the dependencies defined in requirements.txt.
+
+---
+
 ## Hardware
 
 The experiments were performed using CPU execution.
 
 GPU acceleration was not available during the experiment.
+
+Docker execution is also configured for CPU processing.
 
 ---
 
@@ -592,7 +848,116 @@ Large binary files are intentionally excluded from the repository:
 - Generated videos
 - Python virtual environment
 
-Experiment metrics, reports, tables, plots and source code are included.
+Experiment metrics, reports, tables, plots, Docker configuration and source code are included.
+
+The repository contains:
+
+- Source code
+- Requirements
+- Dockerfile
+- Docker Compose configuration
+- Metrics
+- Reports
+- Tables
+- Plots
+- README documentation
+
+---
+
+## .gitignore
+
+The project uses .gitignore to prevent large files, local environments, generated videos and temporary files from being committed.
+
+Important excluded items include:
+
+.venv/
+input/videos/
+models/pt/*.pt
+models/onnx/*.onnx
+outputs/pt/videos/
+outputs/onnx/videos/
+outputs/mcbytetrack/videos/
+runs/
+
+Metrics and reports are retained in Git.
+
+---
+
+## Requirements
+
+The project dependencies are pinned in:
+
+requirements.txt
+
+Current main dependencies include:
+
+ultralytics==8.4.167
+opencv-python-headless==4.13.0.92
+numpy==2.2.6
+pandas==2.3.3
+matplotlib==3.10.8
+psutil==7.1.0
+supervision==0.27.0
+
+---
+
+## Project Execution Summary
+
+The overall project workflow is:
+
+Input Video
+     |
+     v
+YOLO11m PyTorch Detection
+     |
+     +-------------> PyTorch Metrics
+     |
+     v
+PT → ONNX Conversion
+     |
+     v
+YOLO11m ONNX Detection
+     |
+     +-------------> ONNX Metrics
+     |
+     v
+PT vs ONNX Comparison
+     |
+     v
+YOLO11m Detections
+     |
+     v
+MCByteTrack / ByteTrack
+     |
+     +-------------> Tracking Metrics
+     |
+     v
+Final Comparison
+     |
+     v
+Reports + Tables + JSON + Plots
+
+---
+
+## Conclusion
+
+This project evaluates YOLO11m object detection using PyTorch and ONNX Runtime and performs multi-object tracking using the MCByteTrack/ByteTrack tracking stage.
+
+The project maintains common experimental settings where applicable and stores structured results for analysis and comparison.
+
+The project also provides Docker support to make the MCByteTrack execution environment reproducible across different machines.
+
+The current experiment was performed using CPU execution with:
+
+- YOLO11m
+- 1920 × 1080 input video
+- 998 frames
+- Confidence threshold: 0.25
+- IoU threshold: 0.45
+- Image size: 640
+- CPU execution
+
+Ground-truth annotations were not available, so the reported measurements focus on detections, confidence, processing performance and tracking statistics rather than accuracy metrics requiring annotated ground truth.
 
 ---
 
@@ -600,6 +965,3 @@ Experiment metrics, reports, tables, plots and source code are included.
 
 Harshitha Sunkara
 
-B.Tech Computer Science and Engineering - AI/ML
-
-Alliance University
