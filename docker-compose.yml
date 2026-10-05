@@ -1,0 +1,19 @@
+services:
+  mcbytetrack:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    image: yolo11m-mcbytetrack:latest
+
+    container_name: yolo11m-mcbytetrack
+
+    volumes:
+      - ./input:/app/input
+      - ./models:/app/models
+      - ./outputs:/app/outputs
+
+    environment:
+      YOLO_CONFIG_DIR: /tmp/Ultralytics
+
+    restart: "no"
