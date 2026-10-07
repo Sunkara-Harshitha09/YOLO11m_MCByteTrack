@@ -25,6 +25,7 @@ The objective of this project is to:
 - Compare PyTorch, ONNX and MCByteTrack performance
 - Store experiment results in structured CSV, JSON, TXT and PNG formats
 - Provide a Docker-based environment for reproducible execution
+- Provide a standalone MCByteTrack application for easier video processing
 
 The same video and common detection configuration are used wherever applicable to maintain consistent experimental conditions.
 
@@ -69,6 +70,7 @@ The model files are excluded from Git because they are large binary files.
 Expected local paths:
 
 models/pt/yolo11m.pt
+
 models/onnx/yolo11m.onnx
 
 ---
@@ -87,6 +89,26 @@ Tracking:
 - Tracker: MCByteTrack / ByteTrack
 - Detection model: YOLO11m
 - Input video: PNNL_Parking_LOT(1).avi
+
+### Tracker Implementation Clarification
+
+The current MCByteTrack implementation uses the ByteTrack tracker provided by the Supervision library.
+
+The implementation uses:
+
+- YOLO11m for object detection
+- Supervision ByteTrack for multi-object tracking
+- OpenCV for video processing
+- FFmpeg for H.264 video encoding
+
+The current implementation does not use:
+
+- BoxMOT
+- BoT-SORT
+- SAM
+- DeepSORT
+
+The project name remains MCByteTrack, while the actual tracker implementation is based on Supervision ByteTrack.
 
 ---
 
@@ -130,11 +152,268 @@ YOLO11m_MCByteTrack/
             plots/
             summaries/
 
+    MCByteTrack_App/
+        tracker/
+            mcbytetrack.py
+
+        model/
+            yolo11m.pt
+
+        output/
+            videos/
+            tracking/
+            metrics/
+            logs/
+
+        main.py
+
     requirements.txt
     Dockerfile
     docker-compose.yml
     .gitignore
     README.md
+
+---
+
+# MCByteTrack Standalone Application
+
+A standalone application has been added inside:
+
+MCByteTrack_App/
+
+The purpose of this application is to provide a simple entry point for running YOLO11m + MCByteTrack on an input video.
+
+The application contains its own tracker, model and output directories.
+
+### Application Structure
+
+MCByteTrack_App/
+
+    tracker/
+        mcbytetrack.py
+
+    model/
+        yolo11m.pt
+
+    output/
+        videos/
+        tracking/
+        metrics/
+        logs/
+
+    main.py
+
+---
+
+## Application Components
+
+### main.py
+
+main.py is the main entry point of the standalone application.
+
+It is responsible for:
+
+- Starting the application
+- Displaying application information
+- Locating the YOLO11m model
+- Locating the output directory
+- Asking the user for an input video path
+- Validating the input video
+- Starting the MCByteTrack pipeline
+- Displaying processing progress
+- Displaying completion or error information
+
+Run the application from the MCByteTrack_App directory using:
+
+python .\main.py
+
+---
+
+### tracker/mcbytetrack.py
+
+This file contains the detection and tracking pipeline.
+
+Responsibilities include:
+
+- Loading YOLO11m
+- Initializing ByteTrack
+- Reading the input video
+- Processing frames
+- Running YOLO11m detection
+- Converting detections to Supervision format
+- Updating ByteTrack
+- Assigning tracking IDs
+- Drawing bounding boxes and labels
+- Generating tracking information
+- Generating metrics
+- Generating logs
+- Encoding the final output video using H.264
+
+---
+
+### model/yolo11m.pt
+
+This directory contains the YOLO11m PyTorch model used by the standalone application.
+
+Expected path:
+
+MCByteTrack_App/model/yolo11m.pt
+
+---
+
+### output/
+
+All standalone application outputs are stored inside:
+
+MCByteTrack_App/output/
+
+The output directory is organized into:
+
+output/
+    videos/
+    tracking/
+    metrics/
+    logs/
+
+---
+
+## Standalone Application Processing Flow
+
+The application follows this flow:
+
+Input Video
+
+↓
+
+YOLO11m Detection
+
+↓
+
+Supervision ByteTrack
+
+↓
+
+Tracking IDs
+
+↓
+
+Frame Annotation
+
+↓
+
+H.264 Encoding
+
+↓
+
+Output Video
+
+↓
+
+Tracking Data + Metrics + Logs
+
+---
+
+## Standalone Application Execution
+
+Navigate to:
+
+MCByteTrack_App
+
+Then run:
+
+python .\main.py
+
+The application displays:
+
+- Application folder
+- Tracker
+- Model
+- Output folder
+
+It then asks the user to enter the input video path.
+
+Example:
+
+C:\path\to\video.avi
+
+The application validates the path before processing starts.
+
+---
+
+## Standalone Application Output
+
+All standalone application results are stored under:
+
+MCByteTrack_App/output/
+
+### output/videos/
+
+Contains the final annotated video.
+
+The final video is encoded using H.264 through FFmpeg.
+
+### output/tracking/
+
+Contains frame-level tracking information.
+
+Tracking information can include:
+
+- Frame number
+- Track ID
+- Class ID
+- Class name
+- Confidence
+- Bounding box coordinates
+- Tracking information
+
+### output/metrics/
+
+Contains generated tracking and performance statistics.
+
+Metrics can include:
+
+- Total frames
+- Processed frames
+- Total detections
+- Unique track IDs
+- Average active tracks
+- Maximum active tracks
+- Average track lifetime
+- Longest track
+- Processing time
+- FPS
+- Latency statistics
+
+### output/logs/
+
+Contains execution and FFmpeg logs.
+
+These logs can be used for:
+
+- Debugging
+- Checking FFmpeg execution
+- Checking encoding problems
+- Reviewing application execution
+
+---
+
+## FFmpeg and H.264 Encoding
+
+The standalone application uses FFmpeg for final video encoding.
+
+The required video encoder is:
+
+libx264
+
+Verify FFmpeg:
+
+ffmpeg -version
+
+Verify H.264 support:
+
+ffmpeg -encoders | findstr libx264
+
+The FFmpeg executable must be available through the system PATH.
 
 ---
 
@@ -169,9 +448,7 @@ Create the virtual environment:
 
 python -m venv .venv
 
-Activate the environment:
-
-Windows PowerShell:
+Activate the environment on Windows PowerShell:
 
 .\.venv\Scripts\Activate.ps1
 
@@ -210,6 +487,7 @@ Because the input video and model weights are large binary files, they are not i
 Before running the Docker pipeline, make sure the following files exist locally:
 
 input/videos/PNNL_Parking_LOT(1).avi
+
 models/pt/yolo11m.pt
 
 The project mounts the local input, models and outputs directories into the Docker container.
@@ -263,7 +541,9 @@ docker compose up --build
 Docker writes the generated results back to the local project because the following directories are mounted:
 
 ./input → /app/input
+
 ./models → /app/models
+
 ./outputs → /app/outputs
 
 The MCByteTrack outputs are available locally under:
@@ -273,8 +553,11 @@ outputs/mcbytetrack/
 Important output directories include:
 
 outputs/mcbytetrack/metrics/
+
 outputs/mcbytetrack/tracking/
+
 outputs/mcbytetrack/videos/
+
 outputs/mcbytetrack/logs/
 
 The generated videos are excluded from Git because of their large size.
@@ -286,6 +569,7 @@ The generated videos are excluded from Git because of their large size.
 The project uses:
 
 Dockerfile
+
 docker-compose.yml
 
 The Docker image is based on:
@@ -322,7 +606,7 @@ outputs/pt/
 
 ---
 
-### 2. YOLO11m PyTorch Analysis
+## 2. YOLO11m PyTorch Analysis
 
 The PyTorch detection results are analyzed to generate:
 
@@ -342,7 +626,7 @@ outputs/pt/metrics/
 
 ---
 
-### 3. YOLO11m PT to ONNX Conversion
+## 3. YOLO11m PT to ONNX Conversion
 
 The YOLO11m PyTorch model is converted to ONNX.
 
@@ -354,7 +638,7 @@ The ONNX model is validated before inference.
 
 ---
 
-### 4. YOLO11m ONNX Detection
+## 4. YOLO11m ONNX Detection
 
 The same common video is processed using:
 
@@ -371,7 +655,7 @@ outputs/onnx/
 
 ---
 
-### 5. PT vs ONNX Comparison
+## 5. PT vs ONNX Comparison
 
 The PyTorch and ONNX results are compared using:
 
@@ -390,9 +674,9 @@ outputs/final/
 
 ---
 
-### 6. MCByteTrack
+## 6. MCByteTrack
 
-YOLO11m PyTorch detections are passed to the MCByteTrack/ByteTrack tracking stage.
+YOLO11m detections are passed to the MCByteTrack/ByteTrack tracking stage.
 
 The tracking pipeline records:
 
@@ -411,7 +695,7 @@ outputs/mcbytetrack/
 
 ---
 
-### 7. MCByteTrack Analysis
+## 7. MCByteTrack Analysis
 
 Tracking results are analyzed to generate:
 
@@ -431,7 +715,7 @@ outputs/mcbytetrack/metrics/
 
 ---
 
-### 8. Final Comparison
+## 8. Final Comparison
 
 The final comparison combines the results from:
 
@@ -730,13 +1014,37 @@ outputs/mcbytetrack/
 
 ---
 
+## Standalone MCByteTrack App Output Organization
+
+The standalone application results are organized separately under:
+
+MCByteTrack_App/output/
+
+    videos/
+        final H.264 annotated videos
+
+    tracking/
+        tracking CSV and tracking information
+
+    metrics/
+        performance and tracking metrics
+
+    logs/
+        application and FFmpeg logs
+
+This keeps the standalone application outputs separate from the original experiment outputs under:
+
+outputs/
+
+---
+
 ## Video Outputs
 
 Annotated videos are generated for the PyTorch, ONNX and MCByteTrack pipelines.
 
 The generated videos are intentionally excluded from Git because of their file size.
 
-H.264 versions were also generated for easier video preview and playback.
+H.264 versions are also generated for easier video preview and playback.
 
 ---
 
@@ -761,6 +1069,18 @@ To reproduce the project using Python:
 11. Run MCByteTrack.
 12. Analyze the tracking results.
 13. Run the final comparison.
+
+### Standalone Application Reproducibility
+
+To run the standalone MCByteTrack application:
+
+1. Navigate to MCByteTrack_App/.
+2. Ensure model/yolo11m.pt exists.
+3. Ensure FFmpeg is installed and available in PATH.
+4. Activate the Python environment.
+5. Run main.py.
+6. Provide the input video path.
+7. Check the results under MCByteTrack_App/output/.
 
 ---
 
@@ -806,9 +1126,12 @@ docker ps -a
 The Docker Compose configuration uses the following directory mappings:
 
 Local Project                  Docker Container
-./input                    →   /app/input
-./models                   →   /app/models
-./outputs                  →   /app/outputs
+
+./input                        → /app/input
+
+./models                       → /app/models
+
+./outputs                      → /app/outputs
 
 This allows the container to read the local video and model and write the generated results back to the project directory.
 
@@ -871,12 +1194,19 @@ The project uses .gitignore to prevent large files, local environments, generate
 Important excluded items include:
 
 .venv/
+
 input/videos/
+
 models/pt/*.pt
+
 models/onnx/*.onnx
+
 outputs/pt/videos/
+
 outputs/onnx/videos/
+
 outputs/mcbytetrack/videos/
+
 runs/
 
 Metrics and reports are retained in Git.
@@ -892,11 +1222,17 @@ requirements.txt
 Current main dependencies include:
 
 ultralytics==8.4.167
+
 opencv-python-headless==4.13.0.92
+
 numpy==2.2.6
+
 pandas==2.3.3
+
 matplotlib==3.10.8
+
 psutil==7.1.0
+
 supervision==0.27.0
 
 ---
@@ -906,36 +1242,74 @@ supervision==0.27.0
 The overall project workflow is:
 
 Input Video
-     |
-     v
+
+↓
+
 YOLO11m PyTorch Detection
-     |
-     +-------------> PyTorch Metrics
-     |
-     v
+
+↓
+
+PyTorch Metrics
+
+↓
+
 PT → ONNX Conversion
-     |
-     v
+
+↓
+
 YOLO11m ONNX Detection
-     |
-     +-------------> ONNX Metrics
-     |
-     v
+
+↓
+
+ONNX Metrics
+
+↓
+
 PT vs ONNX Comparison
-     |
-     v
+
+↓
+
 YOLO11m Detections
-     |
-     v
+
+↓
+
 MCByteTrack / ByteTrack
-     |
-     +-------------> Tracking Metrics
-     |
-     v
+
+↓
+
+Tracking Metrics
+
+↓
+
 Final Comparison
-     |
-     v
+
+↓
+
 Reports + Tables + JSON + Plots
+
+The standalone application provides an additional simplified execution path:
+
+Input Video
+
+↓
+
+MCByteTrack_App/main.py
+
+↓
+
+YOLO11m
+
+↓
+
+Supervision ByteTrack
+
+↓
+
+H.264 Video
+
+↓
+
+MCByteTrack_App/output/
 
 ---
 
@@ -946,6 +1320,8 @@ This project evaluates YOLO11m object detection using PyTorch and ONNX Runtime a
 The project maintains common experimental settings where applicable and stores structured results for analysis and comparison.
 
 The project also provides Docker support to make the MCByteTrack execution environment reproducible across different machines.
+
+A standalone MCByteTrack application is also provided under MCByteTrack_App for simplified video processing. The standalone application keeps its model, tracker and generated outputs organized separately.
 
 The current experiment was performed using CPU execution with:
 
@@ -964,4 +1340,3 @@ Ground-truth annotations were not available, so the reported measurements focus 
 ## Author
 
 Harshitha Sunkara
-

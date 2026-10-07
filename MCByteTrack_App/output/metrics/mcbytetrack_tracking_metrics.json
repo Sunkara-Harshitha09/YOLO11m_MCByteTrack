@@ -1,0 +1,29 @@
+{
+    "tracker": "MCByteTrack",
+    "tracker_implementation": "supervision.ByteTrack",
+    "video_codec": "H.264",
+    "h264_encoder": "libx264",
+    "frames_processed": 998,
+    "total_detections": 12735,
+    "unique_track_ids": 37,
+    "average_active_tracks": 12.326653306613226,
+    "max_active_tracks": 18,
+    "average_track_lifetime": 335.64864864864865,
+    "longest_track": 998,
+    "average_fps": 1.5065108477146305,
+    "average_latency_ms": 648.1436576236055,
+    "p95_latency_ms": 812.552799936384,
+    "processing_time_seconds": 662.457891699858,
+    "confidence": {
+        "average": 0.7276981279809754,
+        "minimum": 0.25011688470840454,
+        "maximum": 0.9296931028366089
+    },
+    "detections_by_class": {
+        "car": 3310,
+        "person": 9382,
+        "handbag": 38,
+        "tennis racket": 2,
+        "bicycle": 3
+    }
+}

@@ -1,0 +1,114 @@
+YOLO11m + MCByteTrack
+============================================================
+
+Input Video:
+C:\Users\HarshithaSunkara\OneDrive - Proglint\Desktop\YOLO11m_MCByteTrack\input\videos\PNNL_Parking_LOT(1).avi
+
+Model:
+C:\Users\HarshithaSunkara\OneDrive - Proglint\Desktop\YOLO11m_MCByteTrack\MCByteTrack_App\model\yolo11m.pt
+
+Tracker:
+MCByteTrack
+
+Tracker Implementation:
+supervision.ByteTrack
+
+Video Codec:
+H.264
+
+H.264 Encoder:
+libx264
+
+------------------------------------------------------------
+Configuration
+------------------------------------------------------------
+
+Confidence Threshold: 0.25
+IoU Threshold: 0.45
+Image Size: 640
+Device: cpu
+
+------------------------------------------------------------
+Video
+------------------------------------------------------------
+
+Resolution: 1920 x 1080
+FPS: 29.00
+Total Frames: 998
+
+------------------------------------------------------------
+Processing
+------------------------------------------------------------
+
+Frames Processed: 998
+Frames With Detections: 998
+Total Detections: 12735
+
+Processing Time:
+662.46 seconds
+
+Average FPS:
+1.51
+
+Average Latency:
+648.14 ms
+
+P95 Latency:
+812.55 ms
+
+------------------------------------------------------------
+Tracking
+------------------------------------------------------------
+
+Unique Track IDs:
+37
+
+Average Active Tracks:
+12.33
+
+Maximum Active Tracks:
+18
+
+Average Track Lifetime:
+335.65 frames
+
+Longest Track:
+998 frames
+
+------------------------------------------------------------
+Confidence
+------------------------------------------------------------
+
+Average:
+0.7277
+
+Minimum:
+0.2501
+
+Maximum:
+0.9297
+
+------------------------------------------------------------
+Output
+------------------------------------------------------------
+
+H.264 Video:
+C:\Users\HarshithaSunkara\OneDrive - Proglint\Desktop\YOLO11m_MCByteTrack\MCByteTrack_App\output\videos\yolo11m_mcbytetrack_output.mp4
+
+Tracking CSV:
+C:\Users\HarshithaSunkara\OneDrive - Proglint\Desktop\YOLO11m_MCByteTrack\MCByteTrack_App\output\tracking\mcbytetrack_tracks.csv
+
+Tracking JSON:
+C:\Users\HarshithaSunkara\OneDrive - Proglint\Desktop\YOLO11m_MCByteTrack\MCByteTrack_App\output\tracking\mcbytetrack_tracks.json
+
+Metrics JSON:
+C:\Users\HarshithaSunkara\OneDrive - Proglint\Desktop\YOLO11m_MCByteTrack\MCByteTrack_App\output\metrics\mcbytetrack_metrics.json
+
+Tracking Metrics JSON:
+C:\Users\HarshithaSunkara\OneDrive - Proglint\Desktop\YOLO11m_MCByteTrack\MCByteTrack_App\output\metrics\mcbytetrack_tracking_metrics.json
+
+Summary:
+C:\Users\HarshithaSunkara\OneDrive - Proglint\Desktop\YOLO11m_MCByteTrack\MCByteTrack_App\output\metrics\mcbytetrack_summary.txt
+
+Log:
+C:\Users\HarshithaSunkara\OneDrive - Proglint\Desktop\YOLO11m_MCByteTrack\MCByteTrack_App\output\logs\mcbytetrack.log
