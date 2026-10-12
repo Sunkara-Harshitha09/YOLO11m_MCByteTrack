@@ -1,0 +1,71 @@
+CPU vs GPU Detection and Tracking
+=================================
+
+System: YOLO11m PT (CPU)
+  frames_processed: 998
+  detection_count: 12735
+  tracking_records: None
+  average_confidence: 0.7276981279809754
+  average_inference_ms: 752.6341954900329
+  inference_fps: 1.328666709528006
+  pipeline_fps: 1.241405154734283
+  total_time_seconds: 803.9277073999401
+  unique_track_ids: None
+  average_tracks_per_frame: None
+  average_track_length_frames: None
+  minimum_track_length_frames: None
+  maximum_track_length_frames: None
+
+System: YOLO11m TensorRT (GPU)
+  frames_processed: None
+  detection_count: None
+  tracking_records: None
+  average_confidence: None
+  average_inference_ms: None
+  inference_fps: None
+  pipeline_fps: None
+  total_time_seconds: None
+  unique_track_ids: None
+  average_tracks_per_frame: None
+  average_track_length_frames: None
+  minimum_track_length_frames: None
+  maximum_track_length_frames: None
+
+System: YOLO11m + MCByteTrack (CPU)
+  frames_processed: 998
+  detection_count: 12735
+  tracking_records: None
+  average_confidence: None
+  average_inference_ms: 602.116195979952
+  inference_fps: None
+  pipeline_fps: 1.6271537367501083
+  total_time_seconds: 631.5942442130001
+  unique_track_ids: 37
+  average_tracks_per_frame: 12.326653306613226
+  average_track_length_frames: 332.4864864864865
+  minimum_track_length_frames: None
+  maximum_track_length_frames: 998
+
+System: YOLO11m TensorRT + ByteTrack (GPU)
+  frames_processed: 998
+  detection_count: None
+  tracking_records: 12444
+  average_confidence: 0.7570718969420503
+  average_inference_ms: 5.779618914815645
+  inference_fps: 173.02178824222662
+  pipeline_fps: 76.89714739345791
+  total_time_seconds: 12.978374800999518
+  unique_track_ids: 41
+  average_tracks_per_frame: 12.468937875751504
+  average_track_length_frames: 303.5121951219512
+  minimum_track_length_frames: 2
+  maximum_track_length_frames: 998
+
+Notes:
+- CPU detection: YOLO11m PT; GPU detection: YOLO11m TensorRT.
+- CPU tracking: existing YOLO11m PT + MCByteTrack.
+- GPU tracking: YOLO11m TensorRT + ByteTrack.
+- Tracking statistics are meaningful only with their tracker configuration.
+- GPU model, precision, driver and software versions should be recorded.
+- For fair timing, use the same video and image size, warm up each model, and compare both inference-only and complete pipeline timings.
+- MOTA, MOTP, IDF1 and HOTA require ground-truth tracking annotations.

@@ -1,0 +1,10 @@
+TensorRT + MCByteTrack GPU Summary
+GPU: NVIDIA GeForce RTX 3060
+Frames: 998
+Tracking records: 12444
+Unique tracks: 41
+Average track length: 303.51
+Average inference time (ms/frame): 5.780
+Inference FPS: 173.0218
+Pipeline FPS: 76.8971
+Ground-truth tracking metrics: unavailable

@@ -1,1341 +1,487 @@
-# YOLO11m + MCByteTrack
+# YOLO11m Object Detection, ONNX, TensorRT and MCByteTrack
 
-A computer vision object detection and multi-object tracking project using YOLO11m and MCByteTrack/ByteTrack.
+A computer vision project for object detection, multi-object tracking, model-format comparison, and CPU-versus-GPU performance evaluation using YOLO11m, ONNX Runtime, NVIDIA TensorRT, and ByteTrack.
 
-The project uses the same common video for all experiments and evaluates three stages:
+The project preserves the original CPU experiments and adds a separate TensorRT GPU pipeline, GPU-based tracking, and two independent comparison workflows.
 
-1. YOLO11m PyTorch detection
-2. YOLO11m ONNX detection
-3. YOLO11m + MCByteTrack tracking
+## Project Objectives
 
-The project also includes detailed detection, tracking, performance and comparison analysis.
+- Run YOLO11m object detection using the PyTorch model.
+- Convert the YOLO11m model into ONNX format.
+- Run detection using ONNX Runtime.
+- Compare PyTorch, ONNX, and TensorRT detection backends.
+- Implement MCByteTrack using YOLO11m detections.
+- Run a separate GPU tracking pipeline using TensorRT and ByteTrack.
+- Compare CPU detection and tracking results against GPU results.
+- Measure inference time, processing time, FPS, confidence, detection counts, and tracking statistics.
+- Store outputs in CSV, JSON, TXT, and PNG formats.
+- Maintain separate output directories for each experiment.
+- Preserve the original CPU experiment results without overwriting them.
 
----
+## Project Workflow
 
-## Project Objective
+The project consists of five major experiment stages:
 
-The objective of this project is to:
+1. YOLO11m PyTorch detection on CPU.
+2. YOLO11m ONNX conversion and inference.
+3. YOLO11m plus MCByteTrack tracking on CPU.
+4. YOLO11m TensorRT detection and TensorRT plus ByteTrack tracking on GPU.
+5. Final model-backend and CPU-versus-GPU comparisons.
 
-- Run YOLO11m using the PyTorch model
-- Convert YOLO11m from PyTorch to ONNX
-- Run the same video using ONNX Runtime
-- Compare PyTorch and ONNX detection results
-- Implement MCByteTrack using YOLO11m detections
-- Analyze tracking results
-- Compare PyTorch, ONNX and MCByteTrack performance
-- Store experiment results in structured CSV, JSON, TXT and PNG formats
-- Provide a Docker-based environment for reproducible execution
-- Provide a standalone MCByteTrack application for easier video processing
-
-The same video and common detection configuration are used wherever applicable to maintain consistent experimental conditions.
-
----
+The same source video and nominal detection configuration are used across experiments wherever supported. Actual execution hardware, precision, runtime versions, and timing methodology must be recorded for fair comparison.
 
 ## Common Input Video
 
-Video:
-
-PNNL_Parking_LOT(1).avi
+Video filename: PNNL_Parking_LOT(1).avi
 
 Video properties:
 
 - Resolution: 1920 × 1080
-- FPS: 29
+- Original frame rate: 29 FPS
 - Total frames: 998
 - Duration: approximately 34.41 seconds
 - Codec: FMP4
-- File size: approximately 13.77 MB
 
-The input video is not included in the Git repository because it is a large binary file.
+The video is used as the common input for the detection and tracking experiments.
 
-Place the video locally at:
+The input video is excluded from the Git repository because it is a binary dataset file.
 
-input/videos/PNNL_Parking_LOT(1).avi
+Expected local path: input/videos/PNNL_Parking_LOT(1).avi
 
----
+## Model Configuration
 
-## Model
-
-Model:
-
-YOLO11m
+Model: YOLO11m
 
 Model formats:
 
-- PyTorch (.pt)
-- ONNX (.onnx)
+- PyTorch: yolo11m.pt
+- ONNX: yolo11m.onnx
+- TensorRT: yolo11m.engine
 
-The model files are excluded from Git because they are large binary files.
-
-Expected local paths:
-
-models/pt/yolo11m.pt
-
-models/onnx/yolo11m.onnx
-
----
-
-## Experimental Configuration
-
-Common YOLO11m configuration:
+Nominal detection settings:
 
 - Confidence threshold: 0.25
 - IoU threshold: 0.45
-- Image size: 640
-- Device: CPU
+- Input image size: 640
+- Batch size for TensorRT engine export: 1
+- Detection classes: COCO pretrained model classes
+- CPU baseline: PyTorch and ONNX Runtime CPU execution
+- GPU experiment: TensorRT using a compatible NVIDIA GPU
 
-Tracking:
-
-- Tracker: MCByteTrack / ByteTrack
-- Detection model: YOLO11m
-- Input video: PNNL_Parking_LOT(1).avi
-
-### Tracker Implementation Clarification
-
-The current MCByteTrack implementation uses the ByteTrack tracker provided by the Supervision library.
-
-The implementation uses:
-
-- YOLO11m for object detection
-- Supervision ByteTrack for multi-object tracking
-- OpenCV for video processing
-- FFmpeg for H.264 video encoding
-
-The current implementation does not use:
-
-- BoxMOT
-- BoT-SORT
-- SAM
-- DeepSORT
-
-The project name remains MCByteTrack, while the actual tracker implementation is based on Supervision ByteTrack.
-
----
+The TensorRT engine is generated on the target GPU system. TensorRT engine compatibility depends on the target platform, GPU, TensorRT version, and runtime configuration.
 
 ## Project Structure
 
 YOLO11m_MCByteTrack/
 
-    input/
-        videos/
-
-    models/
-        pt/
-        onnx/
-
-    src/
-        detection/
-        conversion/
-        tracking/
-        evaluation/
-
-    outputs/
-        pt/
-            videos/
-            detections/
-            metrics/
-
-        onnx/
-            videos/
-            detections/
-            metrics/
-
-        mcbytetrack/
-            videos/
-            tracking/
-            metrics/
-            logs/
-
-        final/
-            reports/
-            tables/
-            plots/
-            summaries/
-
-    MCByteTrack_App/
-        tracker/
-            mcbytetrack.py
-
-        model/
-            yolo11m.pt
-
-        output/
-            videos/
-            tracking/
-            metrics/
-            logs/
-
-        main.py
-
-    requirements.txt
-    Dockerfile
-    docker-compose.yml
-    .gitignore
-    README.md
-
----
-
-# MCByteTrack Standalone Application
-
-A standalone application has been added inside:
-
-MCByteTrack_App/
-
-The purpose of this application is to provide a simple entry point for running YOLO11m + MCByteTrack on an input video.
-
-The application contains its own tracker, model and output directories.
-
-### Application Structure
-
-MCByteTrack_App/
-
-    tracker/
-        mcbytetrack.py
-
-    model/
-        yolo11m.pt
-
-    output/
-        videos/
-        tracking/
-        metrics/
-        logs/
-
-    main.py
-
----
-
-## Application Components
-
-### main.py
-
-main.py is the main entry point of the standalone application.
-
-It is responsible for:
-
-- Starting the application
-- Displaying application information
-- Locating the YOLO11m model
-- Locating the output directory
-- Asking the user for an input video path
-- Validating the input video
-- Starting the MCByteTrack pipeline
-- Displaying processing progress
-- Displaying completion or error information
-
-Run the application from the MCByteTrack_App directory using:
-
-python .\main.py
-
----
-
-### tracker/mcbytetrack.py
-
-This file contains the detection and tracking pipeline.
-
-Responsibilities include:
-
-- Loading YOLO11m
-- Initializing ByteTrack
-- Reading the input video
-- Processing frames
-- Running YOLO11m detection
-- Converting detections to Supervision format
-- Updating ByteTrack
-- Assigning tracking IDs
-- Drawing bounding boxes and labels
-- Generating tracking information
-- Generating metrics
-- Generating logs
-- Encoding the final output video using H.264
-
----
-
-### model/yolo11m.pt
-
-This directory contains the YOLO11m PyTorch model used by the standalone application.
-
-Expected path:
-
-MCByteTrack_App/model/yolo11m.pt
-
----
-
-### output/
-
-All standalone application outputs are stored inside:
-
-MCByteTrack_App/output/
-
-The output directory is organized into:
-
-output/
-    videos/
-    tracking/
-    metrics/
-    logs/
-
----
-
-## Standalone Application Processing Flow
-
-The application follows this flow:
-
-Input Video
-
-↓
-
-YOLO11m Detection
-
-↓
-
-Supervision ByteTrack
-
-↓
-
-Tracking IDs
-
-↓
-
-Frame Annotation
-
-↓
-
-H.264 Encoding
-
-↓
-
-Output Video
-
-↓
-
-Tracking Data + Metrics + Logs
-
----
-
-## Standalone Application Execution
-
-Navigate to:
-
-MCByteTrack_App
-
-Then run:
-
-python .\main.py
-
-The application displays:
-
-- Application folder
-- Tracker
-- Model
-- Output folder
-
-It then asks the user to enter the input video path.
-
-Example:
-
-C:\path\to\video.avi
-
-The application validates the path before processing starts.
-
----
-
-## Standalone Application Output
-
-All standalone application results are stored under:
-
-MCByteTrack_App/output/
-
-### output/videos/
-
-Contains the final annotated video.
-
-The final video is encoded using H.264 through FFmpeg.
-
-### output/tracking/
-
-Contains frame-level tracking information.
-
-Tracking information can include:
-
-- Frame number
-- Track ID
-- Class ID
-- Class name
-- Confidence
-- Bounding box coordinates
-- Tracking information
-
-### output/metrics/
-
-Contains generated tracking and performance statistics.
-
-Metrics can include:
-
-- Total frames
-- Processed frames
-- Total detections
-- Unique track IDs
-- Average active tracks
-- Maximum active tracks
-- Average track lifetime
-- Longest track
-- Processing time
-- FPS
-- Latency statistics
-
-### output/logs/
-
-Contains execution and FFmpeg logs.
-
-These logs can be used for:
-
-- Debugging
-- Checking FFmpeg execution
-- Checking encoding problems
-- Reviewing application execution
-
----
-
-## FFmpeg and H.264 Encoding
-
-The standalone application uses FFmpeg for final video encoding.
-
-The required video encoder is:
-
-libx264
-
-Verify FFmpeg:
-
-ffmpeg -version
-
-Verify H.264 support:
-
-ffmpeg -encoders | findstr libx264
-
-The FFmpeg executable must be available through the system PATH.
-
----
-
-## Environment
-
-Python:
-
-3.12.10
-
-Main libraries:
-
+- input/
+  - videos/
+- models/
+  - pt/
+  - onnx/
+  - tensorrt/
+- src/
+  - detection/
+  - conversion/
+  - tracking/
+  - evaluation/
+  - tensorrt/
+- outputs/
+  - pt/
+    - detections/
+    - videos/
+    - metrics/
+  - onnx/
+    - detections/
+    - videos/
+    - metrics/
+  - mcbytetrack/
+    - tracking/
+    - videos/
+    - metrics/
+  - tensorrt/
+    - detections/
+    - videos/
+    - metrics/
+  - mcbytetrack_gpu/
+    - tracking/
+    - videos/
+    - metrics/
+  - final/
+    - reports/
+    - tables/
+    - plots/
+    - summaries/
+    - backend_comparison/
+      - tables/
+      - reports/
+      - plots/
+    - cpu_gpu_comparison/
+      - tables/
+      - reports/
+      - plots/
+- requirements.txt
+- .gitignore
+- README.md
+
+The exact contents of the directories depend on which experiment scripts have been executed successfully.
+
+## Environment and Dependencies
+
+The original CPU experiments were performed using Python 3.12.10 and CPU-only PyTorch.
+
+Main libraries used in the project include:
+
+- Python
 - PyTorch
 - Ultralytics
 - OpenCV
 - ONNX
 - ONNX Runtime
+- NVIDIA TensorRT
 - NumPy
 - Pandas
 - Matplotlib
 - Supervision
-- psutil
 
-The complete dependency list is available in requirements.txt.
+The original CPU environment reported PyTorch 2.14.0+cpu, CUDA unavailable, and no TensorRT installation. GPU execution therefore requires a separate compatible environment on a machine with an NVIDIA GPU and supported NVIDIA drivers.
 
----
+The exact compatible CUDA, PyTorch, TensorRT, and driver versions must be verified on the target GPU system before execution.
 
-## Installation
+## Installation and Setup
 
-### Python Environment
+First, clone or copy the project to the machine on which the experiment will run.
 
-Create the virtual environment:
+Create a Python virtual environment if appropriate for that environment, activate it, and install the dependencies required for the selected backend.
 
-python -m venv .venv
+For CPU experiments, use the project's compatible CPU dependency setup.
 
-Activate the environment on Windows PowerShell:
+For TensorRT GPU experiments, configure a compatible NVIDIA driver, CUDA-enabled PyTorch installation, TensorRT runtime, and required Python dependencies. Do not install a CPU-only PyTorch build for the GPU experiment.
 
-.\.venv\Scripts\Activate.ps1
+The dependency installation procedure may differ between Windows and Linux and must match the target GPU system.
 
-Install dependencies:
-
-pip install -r requirements.txt
-
----
-
-## Docker Environment
-
-The project also provides Docker support so that the project can be reproduced without manually configuring the Python environment.
-
-### Docker Requirements
-
-Install:
-
-- Docker Desktop
-- WSL 2 on Windows if required by Docker Desktop
-- Linux containers enabled in Docker Desktop
-
-Verify Docker:
-
-docker --version
-
-Verify Docker Compose:
-
-docker compose version
-
----
-
-## Docker Input Requirements
-
-Because the input video and model weights are large binary files, they are not included in Git.
-
-Before running the Docker pipeline, make sure the following files exist locally:
-
-input/videos/PNNL_Parking_LOT(1).avi
-
-models/pt/yolo11m.pt
-
-The project mounts the local input, models and outputs directories into the Docker container.
-
----
-
-## Docker Build
-
-From the project root directory:
-
-docker compose build
-
-This builds the Docker image using:
-
-Dockerfile
-
-and installs the dependencies specified in:
-
-requirements.txt
-
----
-
-## Docker Run
-
-After the Docker image is built, run:
-
-docker compose up
-
-The container executes the MCByteTrack pipeline automatically.
-
-The configured Docker service is:
-
-mcbytetrack
-
-The Docker container runs:
-
-src/tracking/run_mcbytetrack.py
-
----
-
-## Docker Run with Automatic Rebuild
-
-If the Dockerfile or dependencies have been changed, rebuild and run using:
-
-docker compose up --build
-
----
-
-## Docker Output
-
-Docker writes the generated results back to the local project because the following directories are mounted:
-
-./input → /app/input
-
-./models → /app/models
-
-./outputs → /app/outputs
-
-The MCByteTrack outputs are available locally under:
-
-outputs/mcbytetrack/
-
-Important output directories include:
-
-outputs/mcbytetrack/metrics/
-
-outputs/mcbytetrack/tracking/
-
-outputs/mcbytetrack/videos/
-
-outputs/mcbytetrack/logs/
-
-The generated videos are excluded from Git because of their large size.
-
----
-
-## Docker Configuration
-
-The project uses:
-
-Dockerfile
-
-docker-compose.yml
-
-The Docker image is based on:
-
-python:3.12-slim
-
-The Docker environment installs the required system dependencies and Python packages before running the tracking pipeline.
-
-The Docker image is currently configured for CPU execution.
-
----
-
-## Workflow
-
-### 1. YOLO11m PyTorch Detection
+## Stage 1: YOLO11m PyTorch Detection
 
 The common video is processed using the YOLO11m PyTorch model.
 
-The pipeline records:
+The detection pipeline records:
 
 - Frame number
 - Timestamp
 - Class ID
 - Class name
-- Confidence
-- Bounding box
-- Bounding box dimensions
-- Inference time
+- Detection confidence
+- Bounding-box coordinates
+- Bounding-box width and height
+- Inference timing
 - Processing performance
 
-Results are stored under:
+Results are stored under outputs/pt/.
 
-outputs/pt/
+Generated results include detection CSV and JSON files, metrics, summaries, reports, plots, and annotated video files.
 
----
+## Stage 2: YOLO11m ONNX Detection
 
-## 2. YOLO11m PyTorch Analysis
+The YOLO11m PyTorch model is converted into ONNX format and executed using ONNX Runtime.
 
-The PyTorch detection results are analyzed to generate:
+The same common video and nominal detection configuration are used.
 
-- Detection metrics
-- Detection count per frame
+The ONNX experiment measures:
+
+- Frames processed
+- Detection count
 - Class distribution
-- Confidence statistics
-- Experiment configuration
-- Detailed report
-- Confidence distribution plot
-- Detection-per-frame plot
-- Class distribution plot
-
-Results are stored under:
-
-outputs/pt/metrics/
-
----
-
-## 3. YOLO11m PT to ONNX Conversion
-
-The YOLO11m PyTorch model is converted to ONNX.
-
-The ONNX model is stored locally under:
-
-models/onnx/yolo11m.onnx
-
-The ONNX model is validated before inference.
-
----
-
-## 4. YOLO11m ONNX Detection
-
-The same common video is processed using:
-
-- YOLO11m ONNX
-- ONNX Runtime
-- CPUExecutionProvider
-- Confidence threshold: 0.25
-- IoU threshold: 0.45
-- Image size: 640
-
-Results are stored under:
-
-outputs/onnx/
-
----
-
-## 5. PT vs ONNX Comparison
-
-The PyTorch and ONNX results are compared using:
-
-- Total detection count
-- Class distribution
-- Confidence
-- Bounding-box matching
-- Frame-level detection comparison
+- Average confidence
 - Average inference time
 - Inference FPS
-- Pipeline FPS
+- Complete pipeline FPS
 
-The comparison results are stored under:
+Results are stored under outputs/onnx/.
 
-outputs/final/
+The ONNX experiment is compared against PyTorch to study numerical and performance differences between the two inference backends.
 
----
+## Stage 3: CPU MCByteTrack
 
-## 6. MCByteTrack
+The original CPU tracking experiment combines YOLO11m PyTorch detections with the ByteTrack implementation provided by Supervision.
 
-YOLO11m detections are passed to the MCByteTrack/ByteTrack tracking stage.
-
-The tracking pipeline records:
+Tracking output includes:
 
 - Frame number
 - Track ID
 - Class ID
 - Class name
 - Confidence
-- Bounding box
-- Track duration
+- Bounding-box coordinates
+- Track length
 - Tracking statistics
 
-Results are stored under:
+Results are stored under outputs/mcbytetrack/.
 
-outputs/mcbytetrack/
+The CPU tracking outputs are retained independently from the new GPU tracking results.
 
----
+## Stage 4: TensorRT Engine Export
 
-## 7. MCByteTrack Analysis
+The YOLO11m PyTorch model is exported to a TensorRT engine on the target GPU system.
 
-Tracking results are analyzed to generate:
+Expected engine path: models/tensorrt/yolo11m.engine
 
-- Track count
-- Unique track IDs
-- Track length statistics
-- Tracks per frame
+The export configuration requests FP16 precision, fixed input size 640, and batch size 1. Actual precision and engine capabilities depend on the TensorRT export configuration and target hardware.
+
+The export process records available environment information and export timing.
+
+The TensorRT engine should be generated and tested in the target GPU environment rather than assumed to be portable between arbitrary systems.
+
+## Stage 5: TensorRT GPU Detection
+
+The TensorRT engine processes the common input video using GPU inference.
+
+The pipeline records:
+
+- Frames processed
+- Frames containing detections
+- Total detections
 - Class distribution
-- Confidence statistics
-- Experiment configuration
-- Detailed tracking report
-- Tracking plots
+- Average detection confidence
+- Average inference time
+- Inference FPS
+- Complete pipeline FPS
+- GPU model and experiment configuration
 
-Results are stored under:
+Results are stored separately under outputs/tensorrt/.
 
-outputs/mcbytetrack/metrics/
+Expected output categories include detection CSV and JSON files, metrics JSON, summary TXT, and annotated videos.
 
----
+The TensorRT output folder does not overwrite the existing PyTorch or ONNX results.
 
-## 8. Final Comparison
+## Stage 6: TensorRT GPU MCByteTrack
 
-The final comparison combines the results from:
+A separate GPU tracking pipeline uses TensorRT for YOLO11m detection and ByteTrack for tracking.
+
+The tracker implementation is kept consistent with the original Supervision ByteTrack approach where possible, while the detector backend changes from PyTorch to TensorRT.
+
+The GPU tracking pipeline records:
+
+- Frame number
+- Track ID
+- Class ID
+- Class name
+- Confidence
+- Bounding-box coordinates
+- Track length
+- Number of unique track IDs
+- Average tracks per frame
+- Average, minimum, and maximum track length
+- Inference and pipeline performance
+
+Results are stored under outputs/mcbytetrack_gpu/.
+
+These results remain separate from the original CPU MCByteTrack experiment.
+
+## Comparison 1: PyTorch vs ONNX vs TensorRT
+
+The first comparison evaluates the three detection backends:
 
 - YOLO11m PyTorch
 - YOLO11m ONNX
-- YOLO11m + MCByteTrack
+- YOLO11m TensorRT
 
-Final results are stored under:
+Output directory: outputs/final/backend_comparison/
 
-outputs/final/
+The comparison includes:
 
-The final output contains:
+- Frames processed
+- Detection count
+- Average confidence
+- Average inference time per frame
+- Inference FPS
+- Complete pipeline FPS
+- Total processing time, when available
+- Performance charts
+- CSV comparison table
+- JSON comparison data
+- TXT report
 
-- Reports
-- Tables
-- JSON summaries
-- Comparison plots
+This comparison studies backend differences and runtime performance. Since the recorded baseline uses CPU execution for PyTorch and ONNX while TensorRT uses a GPU, the result reflects both backend and hardware differences. It must not be interpreted as a controlled, same-hardware backend benchmark.
 
----
+## Comparison 2: CPU vs GPU
 
-## Experimental Results
+The second comparison evaluates the original CPU workflows against the GPU workflows.
+
+Output directory: outputs/final/cpu_gpu_comparison/
+
+Detection comparison:
+
+- CPU YOLO11m PyTorch
+- GPU YOLO11m TensorRT
+
+Tracking comparison:
+
+- CPU YOLO11m PyTorch plus MCByteTrack
+- GPU YOLO11m TensorRT plus ByteTrack
+
+Comparison parameters include:
+
+- Frames processed
+- Detection count or tracking-record count, clearly distinguished
+- Average confidence
+- Average inference time
+- Inference FPS
+- Complete pipeline FPS
+- Total processing time
+- Unique track IDs
+- Average tracks per frame
+- Average track length
+- Minimum and maximum track length
+- Performance plots and reports
+
+CPU and GPU comparisons must include the hardware and software configurations. The same video, nominal confidence threshold, IoU threshold, image size, and tracking settings should be maintained where applicable.
+
+GPU timing should be measured after suitable warm-up and with GPU execution synchronized where needed. End-to-end processing time and inference-only time must be reported separately.
+
+## Experimental Results: Existing CPU Baseline
+
+The following results were measured in the existing CPU experiments.
 
 ### YOLO11m PyTorch
 
-Frames processed:
-
-998
-
-Total detections:
-
-12,735
-
-Average confidence:
-
-0.7277
-
-Average inference time:
-
-752.63 ms/frame
-
-Inference FPS:
-
-1.33
-
-Complete pipeline FPS:
-
-1.24
-
----
+- Frames processed: 998
+- Total detections: 12,735
+- Average confidence: approximately 0.7277
+- Average inference time: approximately 752.63 ms per frame
+- Inference FPS: approximately 1.33
+- Complete pipeline FPS: approximately 1.24
 
 ### YOLO11m ONNX
 
-Frames processed:
+- Frames processed: 998
+- Total detections: 12,892
+- Average confidence: approximately 0.7411
+- Average inference time: approximately 1,025.71 ms per frame
+- Inference FPS: approximately 0.97
+- Complete pipeline FPS: approximately 0.92
 
-998
-
-Total detections:
-
-12,892
-
-Average confidence:
-
-0.7411
-
-Average inference time:
-
-1,025.71 ms/frame
-
-Inference FPS:
-
-0.97
-
-Complete pipeline FPS:
-
-0.92
-
----
-
-### YOLO11m + MCByteTrack
-
-Frames processed:
-
-998
-
-Tracking records:
-
-12,302
-
-Unique track IDs:
-
-37
-
-Average confidence:
-
-0.7427
-
-Average inference time:
-
-684.30 ms/frame
-
-Inference FPS:
-
-1.46
-
-Complete pipeline FPS:
-
-1.42
-
-Average tracks per frame:
-
-12.33
-
-Average track length:
-
-332.49 frames
-
-Minimum track length:
-
-2 frames
-
-Maximum track length:
-
-998 frames
-
-Person tracks:
-
-31
-
-Car tracks:
-
-6
-
----
-
-## Docker MCByteTrack Execution Results
-
-The Dockerized MCByteTrack pipeline was also executed successfully using the same input video and YOLO11m model.
-
-### Docker Direct Run
-
-Results from the Docker image execution:
+### YOLO11m + MCByteTrack on CPU
 
 - Frames processed: 998
-- Total detections: 12,735
+- Tracking records: 12,302
 - Unique track IDs: 37
-- Average active tracks: 12.33
-- Maximum active tracks: 18
-- Average track lifetime: 332.49 frames
-- Longest track lifetime: 998 frames
-- Average FPS: approximately 1.65
-- Average latency: approximately 605.78 ms/frame
-- P95 latency: approximately 809.74 ms
-- Total processing time: approximately 621.99 seconds
+- Person tracks: 31
+- Car tracks: 6
+- Average confidence: approximately 0.7427
+- Average inference time: approximately 684.30 ms per frame
+- Inference FPS: approximately 1.46
+- Complete pipeline FPS: approximately 1.42
+- Average track length: approximately 332.49 frames
+- Minimum track length: 2 frames
+- Maximum track length: 998 frames
 
-### Docker Compose Run
+These are measurements from the existing experiment. The GPU results must be generated on the target GPU system and must not be fabricated or inferred from CPU results.
 
-Results from Docker Compose execution:
+## Evaluation Metrics and Ground Truth
 
-- Frames processed: 998
-- Total detections: 12,735
-- Unique track IDs: 37
-- Average active tracks: 12.33
-- Maximum active tracks: 18
-- Average track lifetime: 332.49 frames
-- Longest track lifetime: 998 frames
-- Average FPS: approximately 1.51
-- Average latency: approximately 663.01 ms/frame
-- P95 latency: approximately 1010.18 ms
-- Total processing time: approximately 680.43 seconds
+Ground-truth detection and tracking annotations were not available in the existing experiments.
 
-The small performance difference between direct Docker execution and Docker Compose execution is expected because of runtime and container execution conditions.
-
----
-
-## Class Tracking Results
-
-MCByteTrack produced:
-
-- 31 person tracks
-- 6 car tracks
-- 37 unique track IDs in total
-
-The tracking records represent detections associated with track identities and should not be interpreted as detection accuracy.
-
----
-
-## Ground-Truth Evaluation
-
-Ground-truth detection and tracking annotations were not available for this experiment.
-
-Therefore, the following ground-truth-dependent metrics are not reported:
+Therefore, the following accuracy metrics cannot be calculated reliably without suitable ground truth:
 
 - Precision
 - Recall
 - F1-score
 - mAP@50
 - mAP@50-95
-- IoU
+- IoU-based detection evaluation
 - MOTA
 - MOTP
 - IDF1
 - HOTA
 
-Detection counts, confidence values, FPS and tracking statistics are reported as experiment measurements and should not be interpreted as ground-truth accuracy metrics.
+These metrics must not be assigned invented values.
 
----
+Detection counts, confidence values, track counts, and track lengths are descriptive statistics. They are not substitutes for ground-truth accuracy metrics.
+
+For formal detection and tracking accuracy evaluation, labelled bounding boxes and object identities must be supplied for the evaluated video.
 
 ## Output Formats
 
-The project stores results in multiple formats.
+The experiment scripts produce results in several formats.
 
-### Detection Outputs
-
-- CSV
-- JSON
-
-### Tracking Outputs
+Detection outputs:
 
 - CSV
 - JSON
 
-### Metrics
+Tracking outputs:
 
 - CSV
+- JSON
+
+Metrics and reports:
+
 - JSON
 - TXT
+- CSV
 
-### Visualizations
+Visualizations:
 
-- PNG
-
-### Final Comparison
-
-- CSV tables
-- JSON summaries
-- TXT reports
 - PNG plots
 
----
+Annotated videos:
 
-## Final Output Organization
+- MP4, with codec determined by the output configuration
 
-The final comparison results are organized as:
+Final comparison outputs:
 
-outputs/final/
-
-    reports/
-        final_comparison_report.txt
-        pt_vs_onnx_report.txt
-
-    tables/
-        final_comparison.csv
-        class_comparison.csv
-        ground_truth_metrics.csv
-        performance_comparison.csv
-        pt_vs_onnx_class_comparison.csv
-        pt_vs_onnx_frame_comparison.csv
-        pt_vs_onnx_matched_detections.csv
-
-    plots/
-        average_inference_time_comparison.png
-        confidence_comparison.png
-        detection_count_comparison.png
-        fps_comparison.png
-        inference_performance_comparison.png
-        inference_time_comparison.png
-        pipeline_fps_comparison.png
-        record_count_comparison.png
-
-    summaries/
-        final_comparison.json
-        pt_vs_onnx_summary.json
-
----
-
-## MCByteTrack Output Organization
-
-The MCByteTrack results are organized under:
-
-outputs/mcbytetrack/
-
-    videos/
-        annotated tracking videos
-
-    tracking/
-        tracking CSV outputs
-
-    metrics/
-        tracking metrics JSON
-        tracking statistics CSV
-        summary TXT
-        tracking plots
-
-    logs/
-        execution logs
-
----
-
-## Standalone MCByteTrack App Output Organization
-
-The standalone application results are organized separately under:
-
-MCByteTrack_App/output/
-
-    videos/
-        final H.264 annotated videos
-
-    tracking/
-        tracking CSV and tracking information
-
-    metrics/
-        performance and tracking metrics
-
-    logs/
-        application and FFmpeg logs
-
-This keeps the standalone application outputs separate from the original experiment outputs under:
-
-outputs/
-
----
-
-## Video Outputs
-
-Annotated videos are generated for the PyTorch, ONNX and MCByteTrack pipelines.
-
-The generated videos are intentionally excluded from Git because of their file size.
-
-H.264 versions are also generated for easier video preview and playback.
-
----
+- CSV tables
+- JSON comparison data
+- TXT reports
+- PNG performance plots
 
 ## Reproducibility
 
-The project can be reproduced using either a local Python environment or Docker.
+To reproduce the experiments:
 
-### Python Reproducibility
+1. Obtain the project source code.
+2. Install a compatible environment for the desired CPU or GPU backend.
+3. Place the common video in input/videos/.
+4. Place the YOLO11m PyTorch weights in models/pt/.
+5. Run PyTorch detection.
+6. Convert the model to ONNX and run ONNX inference.
+7. Run the original CPU MCByteTrack pipeline.
+8. On a compatible NVIDIA GPU system, export the TensorRT engine.
+9. Run TensorRT GPU detection.
+10. Run the separate TensorRT plus ByteTrack tracking pipeline.
+11. Generate the backend comparison.
+12. Generate the CPU-versus-GPU comparison.
+13. Verify that all outputs and experiment configurations have been saved.
 
-To reproduce the project using Python:
+Record the GPU name, driver version, CUDA version, PyTorch version, TensorRT version, precision, image size, thresholds, batch size, and timing methodology for each GPU run.
 
-1. Clone the repository.
-2. Create the Python virtual environment.
-3. Install requirements.txt.
-4. Place PNNL_Parking_LOT(1).avi inside input/videos/.
-5. Place yolo11m.pt inside models/pt/.
-6. Run YOLO11m PyTorch detection.
-7. Analyze the PyTorch results.
-8. Convert YOLO11m to ONNX.
-9. Run ONNX inference.
-10. Analyze the ONNX results.
-11. Run MCByteTrack.
-12. Analyze the tracking results.
-13. Run the final comparison.
+## Hardware and Performance Considerations
 
-### Standalone Application Reproducibility
+The original experiments were performed using CPU execution. GPU experiments require a supported NVIDIA GPU and compatible software stack.
 
-To run the standalone MCByteTrack application:
+TensorRT performance depends on GPU architecture, precision, engine configuration, input dimensions, batch size, warm-up, and preprocessing/postprocessing overhead.
 
-1. Navigate to MCByteTrack_App/.
-2. Ensure model/yolo11m.pt exists.
-3. Ensure FFmpeg is installed and available in PATH.
-4. Activate the Python environment.
-5. Run main.py.
-6. Provide the input video path.
-7. Check the results under MCByteTrack_App/output/.
+Inference FPS and complete pipeline FPS measure different aspects of performance. Both should be reported to distinguish raw inference throughput from end-to-end application performance.
 
----
+Comparisons across different hardware should clearly state that hardware differences affect the measured results.
 
-## Docker Reproducibility
+## Git and Large Files
 
-To reproduce the Dockerized MCByteTrack environment:
+The repository is intended to contain source code, configuration, experiment metrics, reports, tables, and plots.
 
-1. Clone the repository.
-2. Install Docker Desktop.
-3. Make sure Docker is running.
-4. Place PNNL_Parking_LOT(1).avi inside input/videos/.
-5. Place yolo11m.pt inside models/pt/.
-6. Build the Docker image.
-7. Run the Docker Compose service.
-8. Check the generated results under outputs/mcbytetrack/.
+Large or environment-specific files are excluded from normal Git tracking where appropriate, including:
 
-### Docker Commands
+- Python virtual environments
+- Input video files
+- Model weight files
+- ONNX model binaries
+- TensorRT engine files
+- Generated annotated videos
+- Temporary files
 
-Build:
+The input video and model files must be supplied locally before running the experiments.
 
-docker compose build
-
-Run:
-
-docker compose up
-
-Build and run after changes:
-
-docker compose up --build
-
-Stop the running service:
-
-Ctrl + C
-
-Check containers:
-
-docker ps -a
-
----
-
-## Docker Volume Mapping
-
-The Docker Compose configuration uses the following directory mappings:
-
-Local Project                  Docker Container
-
-./input                        → /app/input
-
-./models                       → /app/models
-
-./outputs                      → /app/outputs
-
-This allows the container to read the local video and model and write the generated results back to the project directory.
-
----
-
-## Docker Image
-
-Docker image name:
-
-yolo11m-mcbytetrack:latest
-
-Docker container name:
-
-yolo11m-mcbytetrack
-
-The image uses Python 3.12 and installs the dependencies defined in requirements.txt.
-
----
-
-## Hardware
-
-The experiments were performed using CPU execution.
-
-GPU acceleration was not available during the experiment.
-
-Docker execution is also configured for CPU processing.
-
----
-
-## Git Repository
-
-Large binary files are intentionally excluded from the repository:
-
-- Input video
-- PyTorch model weights
-- ONNX model
-- Generated videos
-- Python virtual environment
-
-Experiment metrics, reports, tables, plots, Docker configuration and source code are included.
-
-The repository contains:
-
-- Source code
-- Requirements
-- Dockerfile
-- Docker Compose configuration
-- Metrics
-- Reports
-- Tables
-- Plots
-- README documentation
-
----
-
-## .gitignore
-
-The project uses .gitignore to prevent large files, local environments, generated videos and temporary files from being committed.
-
-Important excluded items include:
-
-.venv/
-
-input/videos/
-
-models/pt/*.pt
-
-models/onnx/*.onnx
-
-outputs/pt/videos/
-
-outputs/onnx/videos/
-
-outputs/mcbytetrack/videos/
-
-runs/
-
-Metrics and reports are retained in Git.
-
----
-
-## Requirements
-
-The project dependencies are pinned in:
-
-requirements.txt
-
-Current main dependencies include:
-
-ultralytics==8.4.167
-
-opencv-python-headless==4.13.0.92
-
-numpy==2.2.6
-
-pandas==2.3.3
-
-matplotlib==3.10.8
-
-psutil==7.1.0
-
-supervision==0.27.0
-
----
-
-## Project Execution Summary
-
-The overall project workflow is:
-
-Input Video
-
-↓
-
-YOLO11m PyTorch Detection
-
-↓
-
-PyTorch Metrics
-
-↓
-
-PT → ONNX Conversion
-
-↓
-
-YOLO11m ONNX Detection
-
-↓
-
-ONNX Metrics
-
-↓
-
-PT vs ONNX Comparison
-
-↓
-
-YOLO11m Detections
-
-↓
-
-MCByteTrack / ByteTrack
-
-↓
-
-Tracking Metrics
-
-↓
-
-Final Comparison
-
-↓
-
-Reports + Tables + JSON + Plots
-
-The standalone application provides an additional simplified execution path:
-
-Input Video
-
-↓
-
-MCByteTrack_App/main.py
-
-↓
-
-YOLO11m
-
-↓
-
-Supervision ByteTrack
-
-↓
-
-H.264 Video
-
-↓
-
-MCByteTrack_App/output/
-
----
-
-## Conclusion
-
-This project evaluates YOLO11m object detection using PyTorch and ONNX Runtime and performs multi-object tracking using the MCByteTrack/ByteTrack tracking stage.
-
-The project maintains common experimental settings where applicable and stores structured results for analysis and comparison.
-
-The project also provides Docker support to make the MCByteTrack execution environment reproducible across different machines.
-
-A standalone MCByteTrack application is also provided under MCByteTrack_App for simplified video processing. The standalone application keeps its model, tracker and generated outputs organized separately.
-
-The current experiment was performed using CPU execution with:
-
-- YOLO11m
-- 1920 × 1080 input video
-- 998 frames
-- Confidence threshold: 0.25
-- IoU threshold: 0.45
-- Image size: 640
-- CPU execution
-
-Ground-truth annotations were not available, so the reported measurements focus on detections, confidence, processing performance and tracking statistics rather than accuracy metrics requiring annotated ground truth.
-
----
+TensorRT engines may depend on the target environment and should be generated on the machine where they will be used.
 
 ## Author
 

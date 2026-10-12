@@ -1,0 +1,28 @@
+{
+    "model": "YOLO11m TensorRT FP16",
+    "device": "NVIDIA GeForce RTX 3060",
+    "input_video": "/home/gurukiran/Documents/Interns/Harshitha mcByte Tracker/YOLO11m_MCByteTrack/input/videos/PNNL_Parking_LOT(1).avi",
+    "engine_path": "/home/gurukiran/Documents/Interns/Harshitha mcByte Tracker/YOLO11m_MCByteTrack/models/tensorrt/yolo11m.engine",
+    "image_size": 640,
+    "confidence_threshold": 0.25,
+    "iou_threshold": 0.45,
+    "video_width": 1920,
+    "video_height": 1080,
+    "input_fps": 29.0,
+    "expected_frames": 998,
+    "processed_frames": 998,
+    "total_detections": 12898,
+    "detections_by_class": {
+        "car": 3362,
+        "person": 9485,
+        "handbag": 45,
+        "tennis racket": 3,
+        "bicycle": 3
+    },
+    "total_inference_seconds": 5.5764,
+    "average_inference_ms_per_frame": 5.5876,
+    "inference_fps": 178.9679,
+    "total_processing_seconds": 12.539,
+    "average_processing_ms_per_frame": 12.5642,
+    "end_to_end_fps": 79.5915
+}

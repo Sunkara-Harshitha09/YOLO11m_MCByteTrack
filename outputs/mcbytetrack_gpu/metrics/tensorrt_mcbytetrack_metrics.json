@@ -1,0 +1,49 @@
+{
+  "experiment": {
+    "model": "YOLO11m",
+    "model_format": "TensorRT engine",
+    "tracker": "supervision.ByteTrack",
+    "device": "NVIDIA GeForce RTX 3060",
+    "confidence_threshold": 0.25,
+    "iou_threshold": 0.45,
+    "image_size": 640
+  },
+  "input_video": {
+    "filename": "PNNL_Parking_LOT(1).avi",
+    "width": 1920,
+    "height": 1080,
+    "fps": 29.0,
+    "total_frames_expected": 998
+  },
+  "processing": {
+    "frames_processed": 998,
+    "tracking_records": 12444,
+    "total_processing_time_seconds": 12.978374800999518,
+    "average_inference_time_per_frame_seconds": 0.0057796189148156445,
+    "average_inference_time_per_frame_ms": 5.779618914815645,
+    "inference_fps": 173.02178824222662,
+    "complete_pipeline_fps": 76.89714739345791
+  },
+  "tracking": {
+    "total_unique_track_ids": 41,
+    "average_tracks_per_frame": 12.468937875751504,
+    "average_track_length_frames": 303.5121951219512,
+    "minimum_track_length_frames": 2,
+    "maximum_track_length_frames": 998,
+    "tracks_by_class": {
+      "car": 7,
+      "person": 33,
+      "bicycle": 1
+    }
+  },
+  "confidence": {
+    "average": 0.7570718969420503
+  },
+  "evaluation_metrics": {
+    "mota": null,
+    "motp": null,
+    "idf1": null,
+    "hota": null,
+    "reason": "Ground-truth tracking annotations were not provided."
+  }
+}

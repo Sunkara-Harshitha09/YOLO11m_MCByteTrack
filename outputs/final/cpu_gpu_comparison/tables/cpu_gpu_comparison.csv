@@ -1,0 +1,5 @@
+system,frames_processed,detection_count,tracking_records,average_confidence,average_inference_ms,inference_fps,pipeline_fps,total_time_seconds,unique_track_ids,average_tracks_per_frame,average_track_length_frames,minimum_track_length_frames,maximum_track_length_frames
+YOLO11m PT (CPU),998,12735,,0.7276981279809754,752.6341954900329,1.328666709528006,1.241405154734283,803.9277073999401,,,,,
+YOLO11m TensorRT (GPU),,,,,,,,,,,,,
+YOLO11m + MCByteTrack (CPU),998,12735,,,602.116195979952,,1.6271537367501083,631.5942442130001,37,12.326653306613226,332.4864864864865,,998
+YOLO11m TensorRT + ByteTrack (GPU),998,,12444,0.7570718969420503,5.779618914815645,173.02178824222662,76.89714739345791,12.978374800999518,41,12.468937875751504,303.5121951219512,2,998

@@ -60,3 +60,16 @@ Thumbs.db
 # Final comparison results are stored under outputs/final/
 # ============================================================
 comparison/
+# TensorRT engine
+models/tensorrt/*.engine
+
+# GPU-generated videos
+outputs/tensorrt/videos/
+outputs/mcbytetrack_gpu/videos/
+# Additional model artifacts
+models/pt/*.onnx
+models/tensorrt/*.engine
+
+# Keep large generated videos out of Git
+outputs/tensorrt/videos/
+outputs/mcbytetrack_gpu/videos/

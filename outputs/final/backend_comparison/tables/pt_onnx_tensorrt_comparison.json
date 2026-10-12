@@ -1,0 +1,50 @@
+[
+  {
+    "system": "YOLO11m PT (CPU)",
+    "frames_processed": 998,
+    "detection_count": 12735,
+    "tracking_records": null,
+    "average_confidence": 0.7276981279809754,
+    "average_inference_ms": 752.6341954900329,
+    "inference_fps": 1.328666709528006,
+    "pipeline_fps": 1.241405154734283,
+    "total_time_seconds": 803.9277073999401,
+    "unique_track_ids": null,
+    "average_tracks_per_frame": null,
+    "average_track_length_frames": null,
+    "minimum_track_length_frames": null,
+    "maximum_track_length_frames": null
+  },
+  {
+    "system": "YOLO11m ONNX",
+    "frames_processed": 998,
+    "detection_count": 12892,
+    "tracking_records": null,
+    "average_confidence": 0.7411456558087062,
+    "average_inference_ms": 1025.7052725502,
+    "inference_fps": 0.9749389291074918,
+    "pipeline_fps": 0.9173458578755858,
+    "total_time_seconds": 1087.9211928979494,
+    "unique_track_ids": null,
+    "average_tracks_per_frame": null,
+    "average_track_length_frames": null,
+    "minimum_track_length_frames": null,
+    "maximum_track_length_frames": null
+  },
+  {
+    "system": "YOLO11m TensorRT (GPU)",
+    "frames_processed": null,
+    "detection_count": null,
+    "tracking_records": null,
+    "average_confidence": null,
+    "average_inference_ms": null,
+    "inference_fps": null,
+    "pipeline_fps": null,
+    "total_time_seconds": null,
+    "unique_track_ids": null,
+    "average_tracks_per_frame": null,
+    "average_track_length_frames": null,
+    "minimum_track_length_frames": null,
+    "maximum_track_length_frames": null
+  }
+]
